@@ -22,9 +22,9 @@ class Output
                 $html .= "<td data title='" . $key . "'>" . $value . "</td>";
             }
             $html .= "<td>
-                      <button class='button'><a href='index.php?op=read&id=" . $row['id'] . "'>Read</a></button>
-                      <button class='button'><a href='index.php?op=update&id=" . $row['id'] . "'>Update</a></button>
-                      <button class='button'><a href='index.php?op=delete&id=" . $row['id'] . "'\">Delete</a></button>
+                      <button class='button'><a href='index.php?op=read&id=" . $row['id'] . "'><i class='fa-brands fa-readme'></i> Read</a></button>
+                      <button class='button'><a href='index.php?op=update&id=" . $row['id'] . "'><i class='fa-solid fa-pen'></i> Update</a></button>
+                      <button class='button'><a href='index.php?op=delete&id=" . $row['id'] . "'\"><i class='fa-solid fa-circle-minus'></i> Delete</a></button>
                       </td>";
             $html .= "</tr>";
         }
