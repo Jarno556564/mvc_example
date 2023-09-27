@@ -32,16 +32,30 @@ class Output
         return $html;
     }
 
-    public function createList($enteries)
+    public function createList($entries)
     {
         $html = '<ul>';
-        foreach ($enteries as $entery) {
-
+        foreach ($entries as $entery) {
             foreach ($entery as $value) {
                 $html .= "<li>" . $value . "</li>";
             }
         }
         $html .= '</ul>';
+        return $html;
+    }
+
+    public function createDropdown($entries)
+    {
+        $html = "<form action='index.php?op=readDropdown' method='post'>";
+        $html .= "<label for='name'>Choose a contact: </label>";
+        $html .= "<select name='name' id='name'>";
+        $html .= "<option disabled selected value>select a contact</option>";
+        foreach ($entries as $entery) {
+            $html .= "<option value='" . $entery['name'] . "'>" . $entery['name'] . "</option>";
+        }
+        $html .= "</select>";
+        $html .= "<input type='submit' value='Submit'>";
+        $html .= "</form>";
         return $html;
     }
 }

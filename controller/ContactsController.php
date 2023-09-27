@@ -27,6 +27,9 @@ class ContactsController
                 case 'read':
                     $this->collectReadContact($_REQUEST['id']);
                     break;
+                case 'readDropdown':
+                    $this->collectReadDropdown($_REQUEST['name']);
+                    break;
                 case 'update':
                     $this->collectUpdateContact($_REQUEST['id']);
                     break;
@@ -34,7 +37,7 @@ class ContactsController
                     $this->collectDeleteContact($_REQUEST['id']);
                     break;
                 default:
-                    $this->collectReadAllContacts();
+                    $this->collectCreateDropdown();
                     break;
             }
         } catch (Exception $e) {
@@ -77,6 +80,20 @@ class ContactsController
     public function collectDeleteContact($id)
     {
         $html = $this->ContactsLogic->deleteContact($id);
+        include 'view/show.php';
+    }
+
+    public function collectCreateDropdown()
+    {
+        $result = $this->ContactsLogic->readAllContacts();
+        $html = $this->Output->createDropdown($result);
+        include 'view/show.php';
+    }
+
+    public function collectReadDropdown($name)
+    {
+        $result = $this->ContactsLogic->readContactName($name);
+        $html = $this->Output->createTable($result);
         include 'view/show.php';
     }
 
