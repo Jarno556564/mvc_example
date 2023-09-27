@@ -30,7 +30,7 @@ class ContactsLogic
     public function readContactName($name)
     {
         try {
-            $sql = "SELECT * FROM contacts WHERE name LIKE '" . $name . "'";
+            $sql = "SELECT * FROM contacts WHERE name LIKE '%" . $name . "%'";
             $result = $this->DataHandler->readData($sql);
             $res = $result->fetchAll();
             return $res;

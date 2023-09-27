@@ -50,8 +50,10 @@ class Output
         $html .= "<label for='name'>Choose a contact: </label>";
         $html .= "<select name='name' id='name'>";
         $html .= "<option disabled selected value>select a contact</option>";
-        foreach ($entries as $entery) {
-            $html .= "<option value='" . $entery['name'] . "'>" . $entery['name'] . "</option>";
+        foreach ($entries as $entry) {
+            $splitName = explode(' ', $entry['name']);
+            $firstname = $splitName[0];
+            $html .= "<option value='" . $firstname . "'>" . $firstname . "</option>";
         }
         $html .= "</select>";
         $html .= "<input type='submit' value='Submit'>";
