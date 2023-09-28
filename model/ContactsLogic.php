@@ -54,7 +54,9 @@ class ContactsLogic
 
     public function updateContact($name, $phone, $email, $address, $id)
     {
-
+        $sql = "UPDATE `contacts` SET `name` = '" . $name . "', `phone` = '" . $phone . "', `email` = '" . $email . "', `address` = '" . $address . "' WHERE id=" . $id;
+        $result = $this->DataHandler->updateData($sql);
+        return $result;
     }
 
     public function deleteContact($id)

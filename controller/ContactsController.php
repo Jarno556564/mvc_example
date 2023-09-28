@@ -37,7 +37,7 @@ class ContactsController
                     $this->collectDeleteContact($_REQUEST['id']);
                     break;
                 default:
-                    $this->collectCreateDropdown();
+                    $this->collectReadAllContacts();
                     break;
             }
         } catch (Exception $e) {
@@ -74,7 +74,17 @@ class ContactsController
 
     public function collectUpdateContact($id)
     {
+        if (isset($_REQUEST['update'])) {
+            $name = isset($_REQUEST['name']) ? $_REQUEST['name'] : null;
+            $phone = isset($_REQUEST['phone']) ? $_REQUEST['phone'] : null;
+            $email = isset($_REQUEST['email']) ? $_REQUEST['email'] : null;
+            $address = isset($_REQUEST['address']) ? $_REQUEST['address'] : null;
 
+            $res = $this->ContactsLogic->updateContact($name, $phone, $email, $address, $id);
+            $msg = "Contact updated succesfully";
+        }
+        $res = $this->ContactsLogic->readContact($id);
+        include 'view/updateContact.php';
     }
 
     public function collectDeleteContact($id)
