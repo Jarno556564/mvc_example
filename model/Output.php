@@ -48,7 +48,7 @@ class Output
     {
         $html = "<form action='index.php?op=readDropdown' method='post'>";
         $html .= "<label for='name'>Choose a contact: </label>";
-        $html .= "<select name='name' id='name'>";
+        $html .= "<select name='name' id='name' onchange='readDropdown(this)'>";
         $html .= "<option disabled selected value>select a contact</option>";
         foreach ($entries as $entry) {
             $splitName = explode(' ', $entry['name']);
@@ -56,7 +56,6 @@ class Output
             $html .= "<option value='" . $firstname . "'>" . $firstname . "</option>";
         }
         $html .= "</select>";
-        $html .= "<input type='submit' value='Submit'>";
         $html .= "</form>";
         return $html;
     }

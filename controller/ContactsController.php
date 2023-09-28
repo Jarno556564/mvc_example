@@ -108,7 +108,6 @@ class ContactsController
     {
         $result = $this->ContactsLogic->readContactName($name);
         $html = $this->Output->createTable($result);
-        include 'view/show.php';
+        print $html;
     }
-
 }
