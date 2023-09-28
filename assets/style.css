@@ -96,6 +96,15 @@ td {
     border-bottom: 1px solid black;
 }
 
+th,
+td[name='id'] {
+    display: none;
+}
+
+li[name='id'] {
+    display: none;
+}
+
 .button {
     display: inline-block;
     padding: 5px 15px;

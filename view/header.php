@@ -23,6 +23,19 @@
     </div>
     <div class="row">
         <div class="side">
+            <div class="dropdown">
+                <script>
+                    const xhttp = new XMLHttpRequest();
+                    xhttp.onreadystatechange = function () {
+                        if (this.readyState === 4 && this.status === 200) {
+                            console.log(this.responseText);
+                            document.querySelector(".dropdown").innerHTML = this.responseText;
+                        }
+                    };
+                    xhttp.open("GET", "index.php?op=createDropdown", true);
+                    xhttp.send();
+                </script>
+            </div>
             <div class="fakeimg" style="height:200px;">Image</div>
             <p>Some text about me in culpa qui officia deserunt mollit anim..</p>
             <h3>More Text</h3>

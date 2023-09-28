@@ -19,7 +19,7 @@ class Output
             }
             $html .= "<tr>";
             foreach ($row as $key => $value) {
-                $html .= "<td data title='" . $key . "'>" . $value . "</td>";
+                $html .= "<td name='" . $key . "'>" . $value . "</td>";
             }
             $html .= "<td>
                       <button class='button'><a href='index.php?op=read&id=" . $row['id'] . "'><i class='fa-brands fa-readme'></i> Read</a></button>
@@ -36,8 +36,8 @@ class Output
     {
         $html = '<ul>';
         foreach ($entries as $entery) {
-            foreach ($entery as $value) {
-                $html .= "<li>" . $value . "</li>";
+            foreach ($entery as $key => $value) {
+                $html .= "<li name='" . $key . "'>" . $value . "</li>";
             }
         }
         $html .= '</ul>';

@@ -27,6 +27,9 @@ class ContactsController
                 case 'read':
                     $this->collectReadContact($_REQUEST['id']);
                     break;
+                case 'createDropdown':
+                    $this->collectCreateDropdown();
+                    break;
                 case 'readDropdown':
                     $this->collectReadDropdown($_REQUEST['name']);
                     break;
@@ -84,6 +87,7 @@ class ContactsController
             $msg = "Contact updated succesfully";
         }
         $res = $this->ContactsLogic->readContact($id);
+        // [$name, $phone, $email, $address, $id] = $res;
         include 'view/updateContact.php';
     }
 
@@ -97,7 +101,7 @@ class ContactsController
     {
         $result = $this->ContactsLogic->readAllContacts();
         $html = $this->Output->createDropdown($result);
-        include 'view/show.php';
+        print $html;
     }
 
     public function collectReadDropdown($name)
