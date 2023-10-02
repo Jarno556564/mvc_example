@@ -113,13 +113,10 @@ li[name='id'] {
     text-align: center;
     outline: none;
     background-color: #1abc9c;
-    border: none;
-    border-radius: 2px;
-}
-
-.button a {
     text-decoration: none;
     color: #fff;
+    border: none;
+    border-radius: 2px;
 }
 
 /* Fake image, just for this example */

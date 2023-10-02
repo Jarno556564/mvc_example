@@ -46,14 +46,14 @@ class Output
 
     public function createDropdown($entries)
     {
-        $html = "<form action='index.php?op=readDropdown' method='post'>";
+        $html = "<form>";
         $html .= "<label for='name'>Choose a contact: </label>";
-        $html .= "<select name='name' id='name' onchange=\"createAjaxRequest('index.php?op=readDropdown&name=' + this.value, 'main')\">";
+        $html .= "<select name='name' id='name' onchange=\"createAjaxRequest('index.php?op=readDropdown&id=' + this.value, 'main')\">";
         $html .= "<option disabled selected value>select a contact</option>";
         foreach ($entries as $entry) {
             $splitName = explode(' ', $entry['name']);
             $firstname = $splitName[0];
-            $html .= "<option value='" . $firstname . "'>" . $firstname . "</option>";
+            $html .= "<option value='" . $entry['id'] . "'>" . $firstname . "</option>";
         }
         $html .= "</select>";
         $html .= "</form>";

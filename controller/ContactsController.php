@@ -31,7 +31,7 @@ class ContactsController
                     $this->collectCreateDropdown();
                     break;
                 case 'readDropdown':
-                    $this->collectReadDropdown($_REQUEST['name']);
+                    $this->collectReadDropdown($_REQUEST['id']);
                     break;
                 case 'update':
                     $this->collectUpdateContact($_REQUEST['id']);
@@ -103,9 +103,9 @@ class ContactsController
         print $html;
     }
 
-    public function collectReadDropdown($name)
+    public function collectReadDropdown($id)
     {
-        $result = $this->ContactsLogic->readContactName($name);
+        $result = $this->ContactsLogic->readContact($id);
         $html = $this->Output->createTable($result);
         print $html;
     }
