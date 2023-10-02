@@ -8,16 +8,16 @@ xhttp.onreadystatechange = function () {
 xhttp.open("GET", "index.php?op=createDropdown", true);
 xhttp.send();
 
-function readDropdown(selectElement) {
-    var selectedValue = selectElement.value;
-    var url = "index.php?op=readDropdown&name=" + encodeURIComponent(selectedValue);
-
+function createAjaxRequest(url, div) {
     const xhttp = new XMLHttpRequest();
     xhttp.open("GET", url, true);
 
-    xhttp.onreadystatechange = function() {
+    xhttp.onreadystatechange = function () {
         if (xhttp.readyState === 4 && xhttp.status === 200) {
-            document.querySelector(".main").innerHTML = xhttp.responseText;;
+            let text1 = ".";
+            let text2 = div;
+            let result = text1.concat("", text2);
+            document.querySelector(result).innerHTML = xhttp.responseText;;
         }
     };
     xhttp.send();

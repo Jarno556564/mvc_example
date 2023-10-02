@@ -65,7 +65,7 @@ class ContactsController
     {
         $result = $this->ContactsLogic->readContact($id);
         $html = $this->Output->createList($result);
-        include 'view/show.php';
+        print $html;
     }
 
     public function collectReadAllContacts()
@@ -84,17 +84,16 @@ class ContactsController
             $address = isset($_REQUEST['address']) ? $_REQUEST['address'] : null;
 
             $res = $this->ContactsLogic->updateContact($name, $phone, $email, $address, $id);
-            $msg = "Contact updated succesfully";
         }
         $res = $this->ContactsLogic->readContact($id);
-        // [$name, $phone, $email, $address, $id] = $res;
-        include 'view/updateContact.php';
+        print $res;
     }
 
     public function collectDeleteContact($id)
     {
         $html = $this->ContactsLogic->deleteContact($id);
-        include 'view/show.php';
+        // include 'view/show.php';
+        print $html;
     }
 
     public function collectCreateDropdown()

@@ -22,10 +22,10 @@ class Output
                 $html .= "<td name='" . $key . "'>" . $value . "</td>";
             }
             $html .= "<td>
-                      <button class='button'><a href='index.php?op=read&id=" . $row['id'] . "'><i class='fa-brands fa-readme'></i> Read</a></button>
-                      <button class='button'><a href='index.php?op=update&id=" . $row['id'] . "'><i class='fa-solid fa-pen'></i> Update</a></button>
-                      <button class='button'><a href='index.php?op=delete&id=" . $row['id'] . "'\"><i class='fa-solid fa-circle-minus'></i> Delete</a></button>
-                      </td>";
+                <button class='button' onclick=\"createAjaxRequest('index.php?op=read&id=" . $row['id'] . "', 'main')\"><i class='fa-brands fa-readme'></i> Read</button>
+                <button class='button' onclick=\"createAjaxRequest('index.php?op=update&id=" . $row['id'] . "', 'main')\"><i class='fa-solid fa-pen'></i> Update</button>
+                <button class='button' onclick=\"createAjaxRequest('index.php?op=delete&id=" . $row['id'] . "', 'main')\"><i class='fa-solid fa-circle-minus'></i> Delete</button>
+                    </td>";
             $html .= "</tr>";
         }
         $html .= "</table>";
@@ -48,7 +48,7 @@ class Output
     {
         $html = "<form action='index.php?op=readDropdown' method='post'>";
         $html .= "<label for='name'>Choose a contact: </label>";
-        $html .= "<select name='name' id='name' onchange='readDropdown(this)'>";
+        $html .= "<select name='name' id='name' onchange=\"createAjaxRequest('index.php?op=readDropdown&name=' + this.value, 'main')\">";
         $html .= "<option disabled selected value>select a contact</option>";
         foreach ($entries as $entry) {
             $splitName = explode(' ', $entry['name']);
