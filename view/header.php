@@ -19,7 +19,7 @@
 
     <div class="navbar">
         <a href="./index.php">Home</a>
-        <a href="./index.php?op=create">Create</a>
+        <a onclick="createAjaxRequest('index.php?op=create', 'main')">Create</a>
     </div>
     <div class="row">
         <div class="side">

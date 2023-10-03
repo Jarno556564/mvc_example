@@ -56,9 +56,12 @@ class ContactsController
             $email = isset($_REQUEST['email']) ? $_REQUEST['email'] : null;
             $address = isset($_REQUEST['address']) ? $_REQUEST['address'] : null;
 
-            $contacts = $this->ContactsLogic->createContact($name, $phone, $email, $address);
+            $html = $this->ContactsLogic->createContact($name, $phone, $email, $address);
+            $message = $html ? "New contact added with id " . $html : "Failed to add new contact.";
+            header("Location: index.php?message=$message");
         }
-        include 'view/createContact.php';
+        $html = $this->Output->createNewContactForm();
+        print $html;
     }
 
     public function collectReadContact($id)
