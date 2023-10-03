@@ -83,16 +83,20 @@ class ContactsController
             $email = isset($_REQUEST['email']) ? $_REQUEST['email'] : null;
             $address = isset($_REQUEST['address']) ? $_REQUEST['address'] : null;
 
-            $res = $this->ContactsLogic->updateContact($name, $phone, $email, $address, $id);
+            $html = $this->ContactsLogic->updateContact($name, $phone, $email, $address, $id);
+            $message = $html ? "Record updated successfully." : "Failed to update the record.";
+            header("Location: index.php?message=$message");
+            exit;
         }
-        $res = $this->ContactsLogic->readContact($id);
-        print $res;
+
+        $result = $this->ContactsLogic->readContact($id);
+        $html = $this->Output->createUpdateForm($result);
+        print $html;
     }
 
     public function collectDeleteContact($id)
     {
         $html = $this->ContactsLogic->deleteContact($id);
-        // include 'view/show.php';
         print $html;
     }
 
