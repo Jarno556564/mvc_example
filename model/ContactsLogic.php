@@ -51,7 +51,7 @@ class ContactsLogic
     {
         $sql = "DELETE FROM contacts WHERE id=" . $id;
         $result = $this->DataHandler->deleteData($sql);
-        return 'Deleted contact ID ' . $result;
+        return 'Amount of contacts deleted: ' . $result;
     }
 
     public function readContactFromSearch($search)

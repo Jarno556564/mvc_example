@@ -45,10 +45,10 @@ class Output
         return $html;
     }
 
-    public function createUpdateForm($res)
+    public function createUpdateContactForm($res)
     {
         $html = "";
-        $html .= "<form action=\"index.php?op=update\" method=\"post\" onsubmit=\"createAjaxRequest('index.php?op=update&id=' + this.value, 'main')\">";
+        $html .= "<form action=\"index.php?act=contacts&op=update\" method=\"post\" onsubmit=\"createAjaxRequest('index.php?act=contacts&op=update&id=' + this.value, 'main')\">";
         $html .= "<label for=\"name\">Name:</label><br>";
         $html .= "<input type=\"text\" id=\"name\" name=\"name\" value=\"" . $res[0]['name'] . "\" required><br>";
         $html .= "<label for=\"phone\">Phone:</label><br>";
@@ -66,7 +66,7 @@ class Output
     public function createNewContactForm()
     {
         $html = "";
-        $html .= "<form action=\"index.php?op=create\" method=\"post\" onsubmit=\"createAjaxRequest('index.php?op=create', 'main')\">";
+        $html .= "<form action=\"index.php?act=contacts&op=create\" method=\"post\" onsubmit=\"createAjaxRequest('index.php?act=contacts&op=create', 'main')\">";
         $html .= "<label for=\"name\">Name:</label><br>";
         $html .= "<input type=\"text\" id=\"name\" name=\"name\" value=\"\" required><br>";
         $html .= "<label for=\"phone\">Phone:</label><br>";
@@ -105,6 +105,46 @@ class Output
         $html .= "</form>";
         return $html;
     }
+
+    public function createNewProductForm()
+    {
+        $html = "";
+        $html .= "<form action=\"index.php?act=products&op=create\" method=\"post\" onsubmit=\"createAjaxRequest('index.php?act=products&op=create', 'main')\">";
+        $html .= "<label for=\"product_type_code\">Product Type Code:</label><br>";
+        $html .= "<input type=\"text\" id=\"product_type_code\" name=\"product_type_code\" value=\"\" required><br>";
+        $html .= "<label for=\"supplier_id\">Supplier ID:</label><br>";
+        $html .= "<input type=\"text\" id=\"supplier_id\" name=\"supplier_id\" value=\"\" required><br>";
+        $html .= "<label for=\"product_name\">Product Name:</label><br>";
+        $html .= "<input type=\"text\" id=\"product_name\" name=\"product_name\" value=\"\" required><br>";
+        $html .= "<label for=\"product_price\">Product Price:</label><br>";
+        $html .= "<input type=\"text\" id=\"product_price\" name=\"product_price\" value=\"\" required><br>";
+        $html .= "<label for=\"other_product_details\">Other Product Details:</label><br>";
+        $html .= "<input type=\"text\" id=\"other_product_details\" name=\"other_product_details\" value=\"\" required><br><br>";
+        $html .= "<input type=\"submit\" name=\"create\" value=\"Create\">";
+        $html .= "</form>";
+        print $html;
+    }
+
+    public function createUpdateProductForm($res)
+    {
+        $html = "";
+        $html .= "<form action=\"index.php?act=products&op=update\" method=\"post\" onsubmit=\"createAjaxRequest('index.php?act=products&op=update&product_id=' + this.value, 'main')\">";
+        $html .= "<label for=\"product_type_code\">Product Type Code:</label><br>";
+        $html .= "<input type=\"text\" id=\"product_type_code\" name=\"product_type_code\" value=\"" . $res[0]['product_type_code'] . "\" required><br>";
+        $html .= "<label for=\"supplier_id\">Supplier ID:</label><br>";
+        $html .= "<input type=\"text\" id=\"supplier_id\" name=\"supplier_id\" value=\"" . $res[0]['supplier_id'] . "\" required><br>";
+        $html .= "<label for=\"product_name\">Product Name:</label><br>";
+        $html .= "<input type=\"text\" id=\"product_name\" name=\"product_name\" value=\"" . $res[0]['product_name'] . "\" required><br>";
+        $html .= "<label for=\"product_price\">Product Price:</label><br>";
+        $html .= "<input type=\"text\" id=\"product_price\" name=\"product_price\" value=\"" . $res[0]['product_price'] . "\" required><br>";
+        $html .= "<label for=\"other_product_details\">Other Product Details:</label><br>";
+        $html .= "<input type=\"text\" id=\"other_product_details\" name=\"other_product_details\" value=\"" . $res[0]['other_product_details'] . "\" required><br><br>";
+        $html .= "<input type=\"hidden\" name=\"product_id\" value=\"" . $res[0]['product_id'] . "\">";
+        $html .= "<input type=\"submit\" name=\"update\" value=\"Update\">";
+        $html .= "</form>";
+        print $html;
+    }
+
 }
 
 ?>
