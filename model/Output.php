@@ -2,10 +2,11 @@
 
 class Output
 {
-    public function createTable($entries)
+    public function createTable($entries, $act, $op1, $op2, $op3, $op4, $id_name)
     {
         $tableheader = false;
         $html = "";
+        $html .= "<button class='button'><a onclick=\"createAjaxRequest('index.php?act=$act&op=create', 'main')\">Create new $op1</a></button>";
         $html .= '<table>';
         foreach ($entries as $row) {
             if ($tableheader == false) {
@@ -22,9 +23,9 @@ class Output
                 $html .= "<td name='" . $key . "'>" . $value . "</td>";
             }
             $html .= "<td>
-                <button class='button' onclick=\"createAjaxRequest('index.php?op=read&id=" . $row['id'] . "', 'main')\"><i class='fa-brands fa-readme'></i> Read</button>
-                <button class='button' onclick=\"createAjaxRequest('index.php?op=update&id=" . $row['id'] . "', 'main')\"><i class='fa-solid fa-pen'></i> Update</button>
-                <button class='button' onclick=\"createAjaxRequest('index.php?op=delete&id=" . $row['id'] . "', 'main')\"><i class='fa-solid fa-circle-minus'></i> Delete</button>
+                <button class='button' onclick=\"createAjaxRequest('index.php?act=$act&op=$op2&id=" . $row[$id_name] . "', 'main')\"><i class='fa-brands fa-readme'></i> Read</button>
+                <button class='button' onclick=\"createAjaxRequest('index.php?act=$act&op=$op3&id=" . $row[$id_name] . "', 'main')\"><i class='fa-solid fa-pen'></i> Update</button>
+                <button class='button' onclick=\"createAjaxRequest('index.php?act=$act&op=$op4&id=" . $row[$id_name] . "', 'main')\"><i class='fa-solid fa-circle-minus'></i> Delete</button>
                     </td>";
             $html .= "</tr>";
         }

@@ -1,6 +1,6 @@
 <?php
 
-require_once 'controller/ContactsController.php';
+require_once 'controller/MainController.php';
 
-$controller = new ContactsController();
+$controller = new MainController();
 $controller->handleRequest();

@@ -16,10 +16,9 @@ class ContactsController
         // code
     }
 
-    public function handleRequest()
+    public function handleRequest($op)
     {
         try {
-            $op = isset($_GET['op']) ? $_GET['op'] : '';
             switch ($op) {
                 case 'create':
                     $this->collectCreateContact();
@@ -80,7 +79,7 @@ class ContactsController
     public function collectReadAllContacts()
     {
         $result = $this->ContactsLogic->readAllContacts();
-        $html = $this->Output->createTable($result);
+        $html = $this->Output->createTable($result, "contacts", "contact", "read", "update", "delete", "id");
         include 'view/show.php';
     }
 
@@ -119,7 +118,7 @@ class ContactsController
     public function collectReadDropdown($id)
     {
         $result = $this->ContactsLogic->readContact($id);
-        $html = $this->Output->createTable($result);
+        $html = $this->Output->createTable($result, "contacts", "contact", "read", "update", "delete", "id");
         print $html;
     }
 
@@ -131,7 +130,7 @@ class ContactsController
     public function collectReadSearchBar($search)
     {
         $result = $this->ContactsLogic->readContactFromSearch($search);
-        $html = $this->Output->createTable($result);
+        $html = $this->Output->createTable($result, "contacts", "contact", "read", "update", "delete", "id");
         print $html;
     }
 }
