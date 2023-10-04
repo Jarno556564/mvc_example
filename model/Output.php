@@ -44,22 +44,6 @@ class Output
         return $html;
     }
 
-    public function createDropdown($entries)
-    {
-        $html = "<form>";
-        $html .= "<label for='name'>Choose a contact: </label>";
-        $html .= "<select name='name' id='name' onchange=\"createAjaxRequest('index.php?op=readDropdown&id=' + this.value, 'main')\">";
-        $html .= "<option disabled selected value>select a contact</option>";
-        foreach ($entries as $entry) {
-            $splitName = explode(' ', $entry['name']);
-            $firstname = $splitName[0];
-            $html .= "<option value='" . $entry['id'] . "'>" . $firstname . "</option>";
-        }
-        $html .= "</select>";
-        $html .= "</form>";
-        return $html;
-    }
-
     public function createUpdateForm($res)
     {
         $html = "";
@@ -75,7 +59,7 @@ class Output
         $html .= "<input type=\"hidden\" name=\"id\" value=\"" . $res[0]['id'] . "\">";
         $html .= "<input type=\"submit\" name=\"update\" value=\"Update\">";
         $html .= "</form>";
-        echo $html;
+        print $html;
     }
 
     public function createNewContactForm()
@@ -92,9 +76,34 @@ class Output
         $html .= "<input type=\"text\" id=\"address\" name=\"address\" value=\"\" required><br><br>";
         $html .= "<input type=\"submit\" name=\"create\" value=\"create\">";
         $html .= "</form>";
-        echo $html;
+        print $html;
     }
 
+    public function createDropdown($entries)
+    {
+        $html = "<form>";
+        $html .= "<label for='name'>Choose a contact: </label>";
+        $html .= "<select name='name' id='name' onchange=\"createAjaxRequest('index.php?op=readDropdown&id=' + this.value, 'main')\">";
+        $html .= "<option disabled selected value>select a contact</option>";
+        foreach ($entries as $entry) {
+            $splitName = explode(' ', $entry['name']);
+            $firstname = $splitName[0];
+            $html .= "<option value='" . $entry['id'] . "'>" . $firstname . "</option>";
+        }
+        $html .= "</select>";
+        $html .= "</form>";
+        return $html;
+    }
+
+    public function createSearchBar()
+    {
+        $html = "<form action=\"index.php?op=readSearchBar\" method=\"post\" onsubmit=\"createAjaxRequest('index.php?op=readSearchBar' + this.value, 'main')\">";
+        $html .= "<label for='search'>Search: </label>";
+        $html .= "<input type='text' name='search' id='search'>";
+        $html .= "</input>";
+        $html .= "</form>";
+        return $html;
+    }
 }
 
 ?>

@@ -27,17 +27,23 @@ class ContactsController
                 case 'read':
                     $this->collectReadContact($_REQUEST['id']);
                     break;
+                case 'update':
+                    $this->collectUpdateContact($_REQUEST['id']);
+                    break;
+                case 'delete':
+                    $this->collectDeleteContact($_REQUEST['id']);
+                    break;
                 case 'createDropdown':
                     $this->collectCreateDropdown();
                     break;
                 case 'readDropdown':
                     $this->collectReadDropdown($_REQUEST['id']);
                     break;
-                case 'update':
-                    $this->collectUpdateContact($_REQUEST['id']);
+                case 'createSearchBar':
+                    $this->collectCreateSearchBar();
                     break;
-                case 'delete':
-                    $this->collectDeleteContact($_REQUEST['id']);
+                case 'readSearchBar':
+                    $this->collectReadSearchBar($_REQUEST['search']);
                     break;
                 default:
                     $this->collectReadAllContacts();
@@ -113,6 +119,18 @@ class ContactsController
     public function collectReadDropdown($id)
     {
         $result = $this->ContactsLogic->readContact($id);
+        $html = $this->Output->createTable($result);
+        print $html;
+    }
+
+    public function collectCreateSearchBar() {
+        $html = $this->Output->createSearchBar();
+        print $html;
+    }
+
+    public function collectReadSearchBar($search)
+    {
+        $result = $this->ContactsLogic->readContactFromSearch($search);
         $html = $this->Output->createTable($result);
         print $html;
     }

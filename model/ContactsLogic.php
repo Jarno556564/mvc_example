@@ -53,4 +53,22 @@ class ContactsLogic
         $result = $this->DataHandler->deleteData($sql);
         return 'Deleted contact ID ' . $result;
     }
+
+    public function readContactFromSearch($search)
+    {
+        try {
+            $sql = "SELECT * FROM contacts
+            WHERE id LIKE '%" . $search . "%'
+            OR name LIKE '%" . $search . "%'
+            OR phone LIKE '%" . $search . "%'
+            OR email LIKE '%" . $search . "%'
+            or address LIKE '%" . $search . "%'";
+
+            $result = $this->DataHandler->readData($sql);
+            $res = $result->fetchAll();
+            return $res;
+        } catch (Exception $e) {
+            throw $e;
+        }
+    }
 }

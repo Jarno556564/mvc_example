@@ -24,6 +24,7 @@
     <div class="row">
         <div class="side">
             <div class="dropdown"></div>
+            <div class="searchBar"></div>
             <div class="fakeimg" style="height:200px;">Image</div>
             <p>Some text about me in culpa qui officia deserunt mollit anim..</p>
             <h3>More Text</h3>

@@ -1,11 +1,20 @@
 
+// const xhttp = new XMLHttpRequest();
+// xhttp.onreadystatechange = function () {
+//     if (this.readyState === 4 && this.status === 200) {
+//         document.querySelector(".dropdown").innerHTML = this.responseText;
+//     }
+// };
+// xhttp.open("GET", "index.php?op=createDropdown", true);
+// xhttp.send();
+
 const xhttp = new XMLHttpRequest();
 xhttp.onreadystatechange = function () {
     if (this.readyState === 4 && this.status === 200) {
-        document.querySelector(".dropdown").innerHTML = this.responseText;
+        document.querySelector(".searchBar").innerHTML = this.responseText;
     }
 };
-xhttp.open("GET", "index.php?op=createDropdown", true);
+xhttp.open("GET", "index.php?op=createSearchBar", true);
 xhttp.send();
 
 function createAjaxRequest(url, div) {
