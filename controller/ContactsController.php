@@ -57,7 +57,7 @@ class ContactsController
             $address = isset($_REQUEST['address']) ? $_REQUEST['address'] : null;
 
             $html = $this->ContactsLogic->createContact($name, $phone, $email, $address);
-            $message = $html ? "New contact added with id " . $html : "Failed to add new contact.";
+            $message = $html > 0 ? "New contact added with id " . $html : "Failed to add new contact.";
             header("Location: index.php?message=$message");
         }
         $html = $this->Output->createNewContactForm();

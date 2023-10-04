@@ -84,9 +84,18 @@ body {
     padding: 20px;
 }
 
+/* table styling */
 table {
     border-collapse: collapse;
     width: 100%;
+}
+
+table th {
+    color: #5f5f5f;
+}
+
+th:nth-child(-n+2) {
+    color: black;
 }
 
 th,
@@ -94,15 +103,6 @@ td {
     padding: 8px;
     text-align: left;
     border-bottom: 1px solid black;
-}
-
-th,
-td[name='id'] {
-    display: none;
-}
-
-li[name='id'] {
-    display: none;
 }
 
 .button {
@@ -118,6 +118,33 @@ li[name='id'] {
     border: none;
     border-radius: 2px;
 }
+
+/* end table styling */
+
+/* dropdown styling */
+.dropdown label {
+    font-weight: bold;
+}
+
+select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+    font-size: 16px;
+    color: #333;
+}
+
+select option {
+    font-size: 16px;
+}
+
+select option:checked {
+    background-color: #007bff;
+    color: #fff;
+}
+/* end dropdown styling */
 
 /* Fake image, just for this example */
 .fakeimg {

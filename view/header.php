@@ -33,3 +33,4 @@
             <div class="fakeimg" style="height:60px;">Image</div>
         </div>
         <div class="main">
+            <?= isset($_REQUEST['message']) ? "<p>" . $_REQUEST['message'] . "</p>" : null; ?>
