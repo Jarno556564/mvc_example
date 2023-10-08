@@ -113,10 +113,13 @@ td {
     text-align: center;
     outline: none;
     background-color: #1abc9c;
-    text-decoration: none;
-    color: #fff;
     border: none;
     border-radius: 2px;
+}
+
+.button a {
+    text-decoration: none;
+    color: #fff;
 }
 
 /* end table styling */

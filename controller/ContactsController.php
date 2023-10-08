@@ -32,14 +32,11 @@ class ContactsController
                 case 'delete':
                     $this->collectDeleteContact($_REQUEST['id']);
                     break;
-                case 'createDropdown':
-                    $this->collectCreateDropdown();
+                case 'createViewControles':
+                    $this->collectCreateViewControls();
                     break;
                 case 'readDropdown':
                     $this->collectReadDropdown($_REQUEST['id']);
-                    break;
-                case 'createSearchBar':
-                    $this->collectCreateSearchBar();
                     break;
                 case 'readSearchBar':
                     $this->collectReadSearchBar($_REQUEST['search']);
@@ -63,23 +60,21 @@ class ContactsController
 
             $html = $this->ContactsLogic->createContact($name, $phone, $email, $address);
             $message = $html > 0 ? "New contact added with id " . $html : "Failed to add new contact.";
-            header("Location: index.php?message=$message");
         }
-        $html = $this->Output->createNewContactForm();
-        print $html;
+        include './view/contacts/createContact.php';
     }
 
     public function collectReadContact($id)
     {
         $result = $this->ContactsLogic->readContact($id);
-        $html = $this->Output->createList($result);
-        print $html;
+        $html = $this->Output->createTable($result, "contacts", "contact", "id");
+        include 'view/show.php';
     }
 
     public function collectReadAllContacts()
     {
         $result = $this->ContactsLogic->readAllContacts();
-        $html = $this->Output->createTable($result, "contacts", "contact", "read", "update", "delete", "id");
+        $html = $this->Output->createTable($result, "contacts", "contact", "id");
         include 'view/show.php';
     }
 
@@ -93,44 +88,34 @@ class ContactsController
 
             $html = $this->ContactsLogic->updateContact($name, $phone, $email, $address, $id);
             $message = $html ? "Record updated successfully." : "Failed to update the record.";
-            header("Location: index.php?message=$message");
-            exit;
         }
-
         $result = $this->ContactsLogic->readContact($id);
-        $html = $this->Output->createUpdateForm($result);
-        print $html;
+        include 'view/contacts/updateContact.php';
     }
 
     public function collectDeleteContact($id)
     {
         $html = $this->ContactsLogic->deleteContact($id);
-        print $html;
+        include 'view/show.php';
     }
 
-    public function collectCreateDropdown()
+    public function collectCreateViewControls()
     {
         $result = $this->ContactsLogic->readAllContacts();
-        $html = $this->Output->createDropdown($result);
-        print $html;
+        $html = $this->Output->createViewControls($result, "contacts");
     }
 
     public function collectReadDropdown($id)
     {
         $result = $this->ContactsLogic->readContact($id);
-        $html = $this->Output->createTable($result, "contacts", "contact", "read", "update", "delete", "id");
-        print $html;
-    }
-
-    public function collectCreateSearchBar() {
-        $html = $this->Output->createSearchBar();
-        print $html;
+        $html = $this->Output->createTable($result, "contacts", "contact", "id");
+        include 'view/show.php';
     }
 
     public function collectReadSearchBar($search)
     {
-        $result = $this->ContactsLogic->readContactFromSearch($search);
-        $html = $this->Output->createTable($result, "contacts", "contact", "read", "update", "delete", "id");
-        print $html;
+        $result = $this->ContactsLogic->readSearchContact($search);
+        $html = $this->Output->createTable($result, "contacts", "contact", "id");
+        include 'view/show.php';
     }
 }

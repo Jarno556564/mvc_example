@@ -23,8 +23,7 @@
     </div>
     <div class="row">
         <div class="side">
-            <div class="dropdown"></div>
-            <div class="searchBar"></div>
+        <div class="view-controls"></div>
             <div class="fakeimg" style="height:200px;">Image</div>
             <p>Some text about me in culpa qui officia deserunt mollit anim..</p>
             <h3>More Text</h3>
@@ -34,4 +33,4 @@
             <div class="fakeimg" style="height:60px;">Image</div>
         </div>
         <div class="main">
-            <?= isset($_REQUEST['message']) ? "<p>" . $_REQUEST['message'] . "</p>" : null; ?>
+    <?php if(isset($message)) {echo $message;} ?>

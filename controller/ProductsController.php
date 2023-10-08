@@ -63,23 +63,21 @@ class ProductsController
 
             $html = $this->ProductsLogic->createProduct($product_type_code, $supplier_id, $product_name, $product_price, $other_product_details);
             $message = $html > 0 ? "New Product added with id " . $html : "Failed to add new Product.";
-            header("Location: index.php?act=products&message=$message");
         }
-        $html = $this->Output->createNewProductForm();
-        print $html;
+        include 'view/products/createProduct.php';
     }
 
     public function collectReadAllProducts() {
         $result = $this->ProductsLogic->readAllProducts();
-        $html = $this->Output->createTable($result, "products", "product", "read", "update", "delete", "product_id");
+        $html = $this->Output->createTable($result, "products", "product", "product_id");
         include 'view/show.php';
     }
 
     public function collectReadProduct($id)
     {
         $result = $this->ProductsLogic->readProduct($id);
-        $html = $this->Output->createTable($result, "products", "product", "read", "update", "delete", "product_id");
-        print $html;
+        $html = $this->Output->createTable($result, "products", "product", "product_id");
+        include 'view/show.php';
     }
 
     public function collectUpdateProduct($id)
@@ -93,45 +91,41 @@ class ProductsController
 
             $html = $this->ProductsLogic->updateProduct($product_type_code, $supplier_id, $product_name, $product_price, $other_product_details, $id);
             $message = $html ? "Record updated successfully." : "Failed to update the record.";
-            // header("Location: index.php?act=products&message=$message");
-            exit;
         }
-
         $result = $this->ProductsLogic->readProduct($id);
-        $html = $this->Output->createUpdateProductForm($result);
-        print $html;
+        include 'view/products/updateProduct.php';
     }
 
     public function collectDeleteProduct($id)
     {
         $html = $this->ProductsLogic->deleteProduct($id);
-        print $html;
+        include 'view/show.php';
     }
 
     public function collectCreateDropdown()
     {
         $result = $this->ProductsLogic->readAllProducts();
         $html = $this->Output->createDropdown($result);
-        print $html;
+        include 'view/show.php';
     }
 
     public function collectReadDropdown($id)
     {
         $result = $this->ProductsLogic->readProduct($id);
-        $html = $this->Output->createTable($result, "Products", "Product", "read", "update", "delete", "id");
-        print $html;
+        $html = $this->Output->createTable($result, "products", "product", "product_id");
+        include 'view/show.php';
     }
 
     public function collectCreateSearchBar() {
         $html = $this->Output->createSearchBar();
-        print $html;
+        include 'view/show.php';
     }
 
     public function collectReadSearchBar($search)
     {
-        $result = $this->ProductsLogic->readProductFromSearch($search);
-        $html = $this->Output->createTable($result, "Products", "Product", "read", "update", "delete", "id");
-        print $html;
+        $result = $this->ProductsLogic->readSearchProduct($search);
+        $html = $this->Output->createTable($result, "products", "product", "product_id");
+        include 'view/show.php';
     }
 
 }

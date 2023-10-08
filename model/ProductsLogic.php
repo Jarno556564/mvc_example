@@ -61,23 +61,15 @@ class ProductsLogic
         return 'Amount of products deleted: ' . $result;
     }
 
-    public function readProductFromSearch($search)
-    {
-        try {
-            $sql = "SELECT * FROM products
-            WHERE product_id LIKE '%" . $search . "%'
-            OR product_type_code LIKE '%" . $search . "%'
-            OR supplier_id LIKE '%" . $search . "%'
-            OR product_name LIKE '%" . $search . "%'
-            OR product_price LIKE '%" . $search . "%'
-            OR other_product_details '%" . $search . "%'";
-
-            $result = $this->DataHandler->readData($sql);
-            $res = $result->fetchAll();
-            return $res;
-        } catch (Exception $e) {
-            throw $e;
-        }
-    }
+    public function readSearchProduct($search){
+		try{
+		  	$sql = "SELECT * FROM `products` WHERE (id LIKE '%$search%' OR product_type_code LIKE '%$search%' OR supplier_id LIKE '%$search%' OR product_name LIKE '%$search%' OR product_price LIKE '%$search%' OR other_product_details LIKE '%$search%')";
+		  	$results = $this->DataHandler->readAllData($sql);
+		  	$res = $results->fetchAll();
+        	return $res;
+		} catch (Exception $e){
+		  	throw $e;
+		}
+	}
 
 }
