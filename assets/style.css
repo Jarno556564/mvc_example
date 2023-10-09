@@ -117,7 +117,7 @@ td {
     outline: none;
     background-color: #1abc9c;
     border: none;
-    border-radius: 2px;
+    border-radius: 0.3rem;
 }
 
 .button a {
@@ -125,6 +125,16 @@ td {
     color: #fff;
 }
 
+.pagination {
+    display: inline-block;
+    padding: 0.45rem;
+    margin: 0.2rem;
+    margin-top: 0.55rem;
+    background-color: #1abc9c;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 0.3rem;
+}
 /* end table styling */
 
 /* dropdown styling */

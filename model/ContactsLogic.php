@@ -27,10 +27,10 @@ class ContactsLogic
         }
     }
 
-    public function readAllContacts()
+    public function readAllContacts($offset, $itemsPerPage)
     {
         try {
-            $sql = "SELECT * FROM contacts";
+            $sql = "SELECT * FROM contacts LIMIT $offset, $itemsPerPage";
             $result = $this->DataHandler->readAlldata($sql);
             $result->setFetchMode(PDO::FETCH_ASSOC);
             $res = $result->fetchAll();
@@ -38,6 +38,17 @@ class ContactsLogic
         } catch (Exception $e) {
             throw $e;
         }
+    }
+
+    public function countPages($itemsPerPage)
+    {
+        $sql = "SELECT COUNT(*) as count FROM contacts";
+        $result = $this->DataHandler->readAlldata($sql);
+        $result->setFetchMode(PDO::FETCH_ASSOC);
+        $res = $result->fetchAll();
+        $totalRecords = $res[0]['count'];
+        $totalPages = ceil($totalRecords / $itemsPerPage);
+        return $totalPages;
     }
 
     public function updateContact($name, $phone, $email, $address, $id)
@@ -53,15 +64,15 @@ class ContactsLogic
         $result = $this->DataHandler->deleteData($sql);
         return 'Amount of contacts deleted: ' . $result;
     }
-
-	public function readSearchContact($search){
-		try{
-		  	$sql = "SELECT * FROM `contacts` WHERE (id LIKE '%$search%' OR name LIKE '%$search%' OR phone LIKE '%$search%' OR email LIKE '%$search%' OR address LIKE '%$search%')";
-		  	$results = $this->DataHandler->readAllData($sql);
-		  	$res = $results->fetchAll();
-        	return $res;
-		} catch (Exception $e){
-		  	throw $e;
-		}
-	}
+    public function readSearchContact($search)
+    {
+        try {
+            $sql = "SELECT * FROM `contacts` WHERE (id LIKE '%$search%' OR name LIKE '%$search%' OR phone LIKE '%$search%' OR email LIKE '%$search%' OR address LIKE '%$search%')";
+            $results = $this->DataHandler->readAllData($sql);
+            $res = $results->fetchAll();
+            return $res;
+        } catch (Exception $e) {
+            throw $e;
+        }
+    }
 }

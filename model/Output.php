@@ -2,7 +2,7 @@
 
 class Output
 {
-    public function createTable($result, $act, $create_name, $id_name)
+    public function createTable($result, $act, $create_name, $id_name, $totalPages)
     {
         $tableheader = false;
         $html = "<div class='view-controls'>";
@@ -32,6 +32,7 @@ class Output
             $html .= "</tr>";
         }
         $html .= "</table>";
+        $html .= $this->createPagination($totalPages, $act);
         return $html;
     }
 
@@ -43,6 +44,15 @@ class Output
         $html .= "</input>";
         $html .= "<button type='submit'>Search</button>";
         $html .= "</form>";
+        return $html;
+    }
+
+    public function createPagination($totalPages, $act)
+    {
+        $html = "";
+        for ($i = 1; $i <= $totalPages; $i++) {
+            $html .= "<a class='pagination' href='index.php?act=$act&op=viewPage&page=$i'> $i </a>";
+        }
         return $html;
     }
 }

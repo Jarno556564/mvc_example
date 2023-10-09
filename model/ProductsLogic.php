@@ -16,10 +16,10 @@ class ProductsLogic
         return $result;
     }
 
-    public function readAllProducts()
+    public function readAllProducts($offset, $itemsPerPage)
     {
         try {
-            $sql = "SELECT * FROM products";
+            $sql = "SELECT * FROM products LIMIT $offset, $itemsPerPage";
             $result = $this->DataHandler->readAlldata($sql);
             $result->setFetchMode(PDO::FETCH_ASSOC);
             $res = $result->fetchAll();
@@ -27,6 +27,17 @@ class ProductsLogic
         } catch (Exception $e) {
             throw $e;
         }
+    }
+
+    public function countPages($itemsPerPage)
+    {
+        $sql = "SELECT COUNT(*) as count FROM products";
+        $result = $this->DataHandler->readAlldata($sql);
+        $result->setFetchMode(PDO::FETCH_ASSOC);
+        $res = $result->fetchAll();
+        $totalRecords = $res[0]['count'];
+        $totalPages = ceil($totalRecords / $itemsPerPage);
+        return $totalPages;
     }
 
     public function readProduct($id)

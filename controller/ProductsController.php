@@ -8,6 +8,7 @@ class ProductsController
     {
         $this->Output = new Output();
         $this->ProductsLogic = new ProductsLogic();
+        $this->itemsPerPage = 5;
     }
 
     public function __destruct()
@@ -33,6 +34,9 @@ class ProductsController
                     break;
                 case 'readSearchBar':
                     $this->collectReadSearchBar($_REQUEST['search']);
+                    break;
+                case 'viewPage':
+                    $this->collectReadAllProducts();
                     break;
                 default:
                     $this->collectReadAllProducts();
@@ -60,15 +64,19 @@ class ProductsController
 
     public function collectReadAllProducts()
     {
-        $result = $this->ProductsLogic->readAllProducts();
-        $html = $this->Output->createTable($result, "products", "product", "product_id");
+        $page = isset($_GET['page']) ? $_GET['page'] : 1;
+        $offset = ($page - 1) * $this->itemsPerPage;
+        $result = $this->ProductsLogic->readAllProducts($offset, $this->itemsPerPage);
+        $totalpages = $this->ProductsLogic->countPages($this->itemsPerPage);
+        $html = $this->Output->createTable($result, "products", "product", "product_id", $totalpages);
         include 'view/show.php';
     }
 
     public function collectReadProduct($id)
     {
         $result = $this->ProductsLogic->readProduct($id);
-        $html = $this->Output->createTable($result, "products", "product", "product_id");
+        $totalpages = $this->ProductsLogic->countPages($this->itemsPerPage);
+        $html = $this->Output->createTable($result, "products", "product", "product_id", 0);
         include 'view/show.php';
     }
 
@@ -97,7 +105,7 @@ class ProductsController
     public function collectReadSearchBar($search)
     {
         $result = $this->ProductsLogic->readSearchProduct($search);
-        $html = $this->Output->createTable($result, "products", "product", "product_id");
+        $html = $this->Output->createTable($result, "products", "product", "product_id", 0);
         include 'view/show.php';
     }
 

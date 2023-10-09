@@ -8,7 +8,7 @@ class ContactsController
     {
         $this->ContactsLogic = new ContactsLogic();
         $this->Output = new Output();
-
+        $this->itemsPerPage = 5;
     }
 
     public function __destruct()
@@ -34,6 +34,9 @@ class ContactsController
                     break;
                 case 'readSearchBar':
                     $this->collectReadSearchBar($_REQUEST['search']);
+                    break;
+                case 'viewPage':
+                    $this->collectReadAllContacts();
                     break;
                 default:
                     $this->collectReadAllContacts();
@@ -61,14 +64,18 @@ class ContactsController
     public function collectReadContact($id)
     {
         $result = $this->ContactsLogic->readContact($id);
-        $html = $this->Output->createTable($result, "contacts", "contact", "id");
+        $totalpages = $this->ContactsLogic->countPages($this->itemsPerPage);
+        $html = $this->Output->createTable($result, "contacts", "contact", "id", 0);
         include 'view/show.php';
     }
 
     public function collectReadAllContacts()
     {
-        $result = $this->ContactsLogic->readAllContacts();
-        $html = $this->Output->createTable($result, "contacts", "contact", "id");
+        $page = isset($_GET['page']) ? $_GET['page'] : 1;
+        $offset = ($page - 1) * $this->itemsPerPage;
+        $result = $this->ContactsLogic->readAllContacts($offset, $this->itemsPerPage);
+        $totalpages = $this->ContactsLogic->countPages($this->itemsPerPage);
+        $html = $this->Output->createTable($result, "contacts", "contact", "id", $totalpages);
         include 'view/show.php';
     }
 
@@ -96,7 +103,7 @@ class ContactsController
     public function collectReadSearchBar($search)
     {
         $result = $this->ContactsLogic->readSearchContact($search);
-        $html = $this->Output->createTable($result, "contacts", "contact", "id");
+        $html = $this->Output->createTable($result, "contacts", "contact", "id", 0);
         include 'view/show.php';
     }
 }
