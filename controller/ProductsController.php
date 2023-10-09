@@ -31,15 +31,6 @@ class ProductsController
                 case 'delete':
                     $this->collectDeleteProduct($_REQUEST['id']);
                     break;
-                case 'createDropdown':
-                    $this->collectCreateDropdown();
-                    break;
-                case 'readDropdown':
-                    $this->collectReadDropdown($_REQUEST['id']);
-                    break;
-                case 'createSearchBar':
-                    $this->collectCreateSearchBar();
-                    break;
                 case 'readSearchBar':
                     $this->collectReadSearchBar($_REQUEST['search']);
                     break;
@@ -67,7 +58,8 @@ class ProductsController
         include 'view/products/createProduct.php';
     }
 
-    public function collectReadAllProducts() {
+    public function collectReadAllProducts()
+    {
         $result = $this->ProductsLogic->readAllProducts();
         $html = $this->Output->createTable($result, "products", "product", "product_id");
         include 'view/show.php';
@@ -99,25 +91,6 @@ class ProductsController
     public function collectDeleteProduct($id)
     {
         $html = $this->ProductsLogic->deleteProduct($id);
-        include 'view/show.php';
-    }
-
-    public function collectCreateDropdown()
-    {
-        $result = $this->ProductsLogic->readAllProducts();
-        $html = $this->Output->createDropdown($result);
-        include 'view/show.php';
-    }
-
-    public function collectReadDropdown($id)
-    {
-        $result = $this->ProductsLogic->readProduct($id);
-        $html = $this->Output->createTable($result, "products", "product", "product_id");
-        include 'view/show.php';
-    }
-
-    public function collectCreateSearchBar() {
-        $html = $this->Output->createSearchBar();
         include 'view/show.php';
     }
 

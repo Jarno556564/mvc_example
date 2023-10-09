@@ -32,12 +32,6 @@ class ContactsController
                 case 'delete':
                     $this->collectDeleteContact($_REQUEST['id']);
                     break;
-                case 'createViewControles':
-                    $this->collectCreateViewControls();
-                    break;
-                case 'readDropdown':
-                    $this->collectReadDropdown($_REQUEST['id']);
-                    break;
                 case 'readSearchBar':
                     $this->collectReadSearchBar($_REQUEST['search']);
                     break;
@@ -96,19 +90,6 @@ class ContactsController
     public function collectDeleteContact($id)
     {
         $html = $this->ContactsLogic->deleteContact($id);
-        include 'view/show.php';
-    }
-
-    public function collectCreateViewControls()
-    {
-        $result = $this->ContactsLogic->readAllContacts();
-        $html = $this->Output->createViewControls($result, "contacts");
-    }
-
-    public function collectReadDropdown($id)
-    {
-        $result = $this->ContactsLogic->readContact($id);
-        $html = $this->Output->createTable($result, "contacts", "contact", "id");
         include 'view/show.php';
     }
 

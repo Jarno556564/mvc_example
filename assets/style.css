@@ -75,15 +75,18 @@ body {
     padding: 20px;
 }
 
-/* Main column */
-.main {
-    -ms-flex: 70%;
-    /* IE10 */
-    flex: 70%;
-    background-color: white;
-    padding: 20px;
+/* view controls styling */
+.view-controls {
+    display: flex;
+    text-align: center;
 }
 
+.view-controls .button,
+.view-controls form {
+    margin: 0.5rem;
+}
+
+/* end view controls styling */
 /* table styling */
 table {
     border-collapse: collapse;
@@ -147,6 +150,7 @@ select option:checked {
     background-color: #007bff;
     color: #fff;
 }
+
 /* end dropdown styling */
 
 /* Fake image, just for this example */

@@ -5,7 +5,10 @@ class Output
     public function createTable($result, $act, $create_name, $id_name)
     {
         $tableheader = false;
-        $html = "<button class='button'><a href='index.php?act=$act&op=create'>Create new $create_name</a></button>";
+        $html = "<div class='view-controls'>";
+        $html .= "<button class='button'><a href='index.php?act=$act&op=create'>Create new $create_name</a></button>";
+        $html .= $this->createSearchBar($act);
+        $html .= "</div>";
         $html .= '<table>';
         foreach ($result as $row) {
             if ($tableheader == false) {
@@ -32,27 +35,16 @@ class Output
         return $html;
     }
 
-    public function createViewControls($result, $act) {
-        $html = "<form>";
-        $html .= "<label for='name'>Choose a contact: </label>";
-        $html .= "<select name='name' id='name'>";
-        $html .= "<option disabled selected value>select a contact</option>";
-        foreach ($result as $row) {
-            $splitName = explode(' ', $row['name']);
-            $firstname = $splitName[0];
-            $html .= "<option value='" . $row['id'] . "'>" . $firstname . "</option>";
-        }
-        $html .= "</select>";
-        $html .= "</form>";
-
-        $html .= "<form action=\"index.php?act=$act&op=readSearchBar\">";
+    public function createSearchBar($act)
+    {
+        $html = "<form method='post' action=\"index.php?act=$act&op=readSearchBar\">";
         $html .= "<label for='search'>Search: </label>";
         $html .= "<input type='text' name='search' id='search'>";
         $html .= "</input>";
+        $html .= "<button type='submit'>Search</button>";
         $html .= "</form>";
-        print $html;
+        return $html;
     }
-
 }
 
 ?>
