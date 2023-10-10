@@ -64,8 +64,8 @@ class ContactsController
     public function collectReadContact($id)
     {
         $result = $this->ContactsLogic->readContact($id);
-        $html = $this->Output->createSearchBar("contacts");
-        $html .= $this->Output->createTable($result, "contacts", "contact", "id");
+        $html = $this->Output->createViewControls("contacts");
+        $html .= $this->Output->createTable($result, "contacts", "id");
         include 'view/show.php';
     }
 
@@ -75,8 +75,8 @@ class ContactsController
         $offset = ($page - 1) * $this->itemsPerPage;
         $result = $this->ContactsLogic->readAllContacts($offset, $this->itemsPerPage);
         $totalpages = $this->ContactsLogic->countPages($this->itemsPerPage);
-        $html = $this->Output->createSearchBar("contacts");
-        $html .= $this->Output->createTable($result, "contacts", "contact", "id");
+        $html = $this->Output->createViewControls("contacts");
+        $html .= $this->Output->createTable($result, "contacts", "id");
         $html .= $this->Output->createPagination($totalpages, "contacts");
         include 'view/show.php';
     }
@@ -105,8 +105,8 @@ class ContactsController
     public function collectReadSearchBar($search)
     {
         $result = $this->ContactsLogic->readSearchContact($search);
-        $html = $this->Output->createSearchBar("contacts");
-        $html .= $this->Output->createTable($result, "contacts", "contact", "id");
+        $html = $this->Output->createViewControls("contacts");
+        $html .= $this->Output->createTable($result, "contacts", "id");
         include 'view/show.php';
     }
 }

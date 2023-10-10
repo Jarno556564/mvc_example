@@ -2,11 +2,10 @@
 
 class Output
 {
-    public function createTable($result, $act, $create_name, $id_name)
+    public function createTable($result, $act, $id_name)
     {
         $tableheader = false;
-        $html = "<button class='button'><a href='index.php?act=$act&op=create'>Create new $create_name</a></button>";
-        $html .= '<table>';
+        $html = '<table>';
         foreach ($result as $row) {
             if ($tableheader == false) {
                 $html .= "<tr>";
@@ -32,14 +31,18 @@ class Output
         return $html;
     }
 
-    public function createSearchBar($act)
+    public function createViewControls($act)
     {
-        $html = "<form method='post' action=\"index.php?act=$act&op=readSearchBar\">";
+        $create_name = substr($act, 0, -1);
+        $html = "<div class='view-controls'>";
+        $html .= "<button class='button'><a href='index.php?act=$act&op=create'>Create new $create_name</a></button>";
+        $html .= "<form method='post' action=\"index.php?act=$act&op=readSearchBar\">";
         $html .= "<label for='search'>Search: </label>";
         $html .= "<input type='text' name='search' id='search'>";
         $html .= "</input>";
         $html .= "<button type='submit'>Search</button>";
         $html .= "</form>";
+        $html .= "</div>";
         return $html;
     }
 
