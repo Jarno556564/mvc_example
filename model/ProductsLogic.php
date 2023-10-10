@@ -19,7 +19,7 @@ class ProductsLogic
     public function readAllProducts($offset, $itemsPerPage)
     {
         try {
-            $sql = "SELECT * FROM products LIMIT $offset, $itemsPerPage";
+            $sql = "SELECT product_id, product_name, CONCAT('€ ',REPLACE(product_price, '.', ','))product_price, other_product_details FROM products LIMIT $offset, $itemsPerPage";
             $result = $this->DataHandler->readAlldata($sql);
             $result->setFetchMode(PDO::FETCH_ASSOC);
             $res = $result->fetchAll();
@@ -43,7 +43,7 @@ class ProductsLogic
     public function readProduct($id)
     {
         try {
-            $sql = "SELECT * FROM products where product_id=" . $id;
+            $sql = "SELECT product_id, product_name, CONCAT('€ ',REPLACE(product_price, '.', ','))product_price, other_product_details FROM products WHERE product_id=$id";
             $result = $this->DataHandler->readData($sql);
             $result->setFetchMode(PDO::FETCH_ASSOC);
             $res = $result->fetchAll();
@@ -72,15 +72,16 @@ class ProductsLogic
         return 'Amount of products deleted: ' . $result;
     }
 
-    public function readSearchProduct($search){
-		try{
-		  	$sql = "SELECT * FROM `products` WHERE (product_id LIKE '%$search%' OR product_type_code LIKE '%$search%' OR supplier_id LIKE '%$search%' OR product_name LIKE '%$search%' OR product_price LIKE '%$search%' OR other_product_details LIKE '%$search%')";
-		  	$results = $this->DataHandler->readAllData($sql);
-		  	$res = $results->fetchAll();
-        	return $res;
-		} catch (Exception $e){
-		  	throw $e;
-		}
-	}
+    public function readSearchProduct($search)
+    {
+        try {
+            $sql = "SELECT * FROM `products` WHERE (product_id LIKE '%$search%' OR product_type_code LIKE '%$search%' OR supplier_id LIKE '%$search%' OR product_name LIKE '%$search%' OR product_price LIKE '%$search%' OR other_product_details LIKE '%$search%')";
+            $results = $this->DataHandler->readAllData($sql);
+            $res = $results->fetchAll();
+            return $res;
+        } catch (Exception $e) {
+            throw $e;
+        }
+    }
 
 }
