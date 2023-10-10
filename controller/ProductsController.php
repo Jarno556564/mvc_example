@@ -68,15 +68,17 @@ class ProductsController
         $offset = ($page - 1) * $this->itemsPerPage;
         $result = $this->ProductsLogic->readAllProducts($offset, $this->itemsPerPage);
         $totalpages = $this->ProductsLogic->countPages($this->itemsPerPage);
-        $html = $this->Output->createTable($result, "products", "product", "product_id", $totalpages);
+        $html = $this->Output->createSearchBar("products");
+        $html .= $this->Output->createTable($result, "products", "product", "product_id");
+        $html .= $this->Output->createPagination($totalpages, "products");
         include 'view/show.php';
     }
 
     public function collectReadProduct($id)
     {
         $result = $this->ProductsLogic->readProduct($id);
-        $totalpages = $this->ProductsLogic->countPages($this->itemsPerPage);
-        $html = $this->Output->createTable($result, "products", "product", "product_id", 0);
+        $html = $this->Output->createSearchBar("products");
+        $html .= $this->Output->createTable($result, "products", "product", "product_id");
         include 'view/show.php';
     }
 
@@ -105,7 +107,8 @@ class ProductsController
     public function collectReadSearchBar($search)
     {
         $result = $this->ProductsLogic->readSearchProduct($search);
-        $html = $this->Output->createTable($result, "products", "product", "product_id", 0);
+        $html = $this->Output->createSearchBar("contacts");
+        $html = $this->Output->createTable($result, "products", "product", "product_id");
         include 'view/show.php';
     }
 

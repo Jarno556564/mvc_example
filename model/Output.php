@@ -2,13 +2,10 @@
 
 class Output
 {
-    public function createTable($result, $act, $create_name, $id_name, $totalPages)
+    public function createTable($result, $act, $create_name, $id_name)
     {
         $tableheader = false;
-        $html = "<div class='view-controls'>";
-        $html .= "<button class='button'><a href='index.php?act=$act&op=create'>Create new $create_name</a></button>";
-        $html .= $this->createSearchBar($act);
-        $html .= "</div>";
+        $html = "<button class='button'><a href='index.php?act=$act&op=create'>Create new $create_name</a></button>";
         $html .= '<table>';
         foreach ($result as $row) {
             if ($tableheader == false) {
@@ -32,7 +29,6 @@ class Output
             $html .= "</tr>";
         }
         $html .= "</table>";
-        $html .= $this->createPagination($totalPages, $act);
         return $html;
     }
 
