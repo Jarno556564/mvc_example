@@ -104,6 +104,7 @@ class ProductsController
     public function collectDeleteProduct($id)
     {
         $html = $this->ProductsLogic->deleteProduct($id);
+        $html .= $this->Output->createModal();
         include 'view/show.php';
     }
 
@@ -115,12 +116,14 @@ class ProductsController
         include 'view/show.php';
     }
 
-
     public function collectExportProducts()
     {
         $page = isset($_GET['page']) ? $_GET['page'] : 1;
         $offset = ($page - 1) * $this->itemsPerPage;
         $result = $this->ProductsLogic->readAllProducts($offset, $this->itemsPerPage);
+        //replace euro sign in product_price
+        // edit the result array given to createCSV
+
         $this->ProductsLogic->createCSV($result);
     }
 

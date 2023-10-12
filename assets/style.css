@@ -134,34 +134,45 @@ td {
     color: #fff;
     text-decoration: none;
     border-radius: 0.3rem;
+    border: none;
 }
+
+.paginationArrow  a{
+    color: #fff;
+    padding: 0.5rem 1rem;
+}
+
+.paginationArrow {
+    border: none;
+
+}
+
 /* end table styling */
 
-/* dropdown styling */
-.dropdown label {
-    font-weight: bold;
-}
+/* start searchbar styling */
 
-select {
-    width: 100%;
-    padding: 10px;
+.searchbar {
+    padding: 5px;
     border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: #fff;
-    font-size: 16px;
-    color: #333;
+    border-radius: 3px;
 }
 
-select option {
-    font-size: 16px;
-}
-
-select option:checked {
-    background-color: #007bff;
+.searchButton {
+    background-color: #1abc9c;
     color: #fff;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 0.3rem;
+    cursor: pointer;
 }
 
-/* end dropdown styling */
+/* end searchbar styling */
+
+/* start modal styling */
+.modal {
+    display: none;
+}
+/* end modal styling */
 
 /* Fake image, just for this example */
 .fakeimg {
