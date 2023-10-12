@@ -75,18 +75,6 @@ body {
     padding: 20px;
 }
 
-/* view controls styling */
-.view-controls {
-    display: flex;
-    text-align: center;
-}
-
-.view-controls .button,
-.view-controls form {
-    margin: 0.5rem;
-}
-
-/* end view controls styling */
 /* table styling */
 table {
     border-collapse: collapse;
@@ -95,10 +83,6 @@ table {
 
 table th {
     color: #5f5f5f;
-}
-
-th:nth-child(-n+2) {
-    color: black;
 }
 
 th,
@@ -125,43 +109,7 @@ td {
     color: #fff;
 }
 
-.pagination {
-    display: inline-block;
-    padding: 0.45rem;
-    margin: 0.2rem;
-    margin-top: 0.55rem;
-    background-color: #1abc9c;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 0.3rem;
-}
 /* end table styling */
-
-/* dropdown styling */
-.dropdown label {
-    font-weight: bold;
-}
-
-select {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: #fff;
-    font-size: 16px;
-    color: #333;
-}
-
-select option {
-    font-size: 16px;
-}
-
-select option:checked {
-    background-color: #007bff;
-    color: #fff;
-}
-
-/* end dropdown styling */
 
 /* Fake image, just for this example */
 .fakeimg {

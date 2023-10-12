@@ -32,15 +32,6 @@ class ProductsController
                 case 'delete':
                     $this->collectDeleteProduct($_REQUEST['id']);
                     break;
-                case 'readSearchBar':
-                    $this->collectReadSearchBar($_REQUEST['search']);
-                    break;
-                case 'viewPage':
-                    $this->collectReadAllProducts();
-                    break;
-                case 'export':
-                    $this->collectExportProducts();
-                    break;
                 default:
                     $this->collectReadAllProducts();
                     break;
@@ -67,21 +58,15 @@ class ProductsController
 
     public function collectReadAllProducts()
     {
-        $page = isset($_GET['page']) ? $_GET['page'] : 1;
-        $offset = ($page - 1) * $this->itemsPerPage;
-        $result = $this->ProductsLogic->readAllProducts($offset, $this->itemsPerPage);
-        $totalpages = $this->ProductsLogic->countPages($this->itemsPerPage);
-        $html = $this->Output->createViewControls("products");
-        $html .= $this->Output->createTable($result, "products", "product_id");
-        $html .= $this->Output->createPagination($totalpages, "products");
+        $result = $this->ProductsLogic->readAllProducts();
+        $html = $this->Output->createTable($result, "products", "product_id");
         include 'view/show.php';
     }
 
     public function collectReadProduct($id)
     {
         $result = $this->ProductsLogic->readProduct($id);
-        $html = $this->Output->createViewControls("products");
-        $html .= $this->Output->createTable($result, "products", "product_id");
+        $html = $this->Output->createTable($result, "products", "product_id");
         include 'view/show.php';
     }
 
@@ -105,23 +90,6 @@ class ProductsController
     {
         $html = $this->ProductsLogic->deleteProduct($id);
         include 'view/show.php';
-    }
-
-    public function collectReadSearchBar($search)
-    {
-        $result = $this->ProductsLogic->readSearchProduct($search);
-        $html = $this->Output->createViewControls("products");
-        $html .= $this->Output->createTable($result, "products", "product_id");
-        include 'view/show.php';
-    }
-
-
-    public function collectExportProducts()
-    {
-        $page = isset($_GET['page']) ? $_GET['page'] : 1;
-        $offset = ($page - 1) * $this->itemsPerPage;
-        $result = $this->ProductsLogic->readAllProducts($offset, $this->itemsPerPage);
-        $this->ProductsLogic->createCSV($result);
     }
 
 }

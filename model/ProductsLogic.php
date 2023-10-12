@@ -16,10 +16,10 @@ class ProductsLogic
         return $result;
     }
 
-    public function readAllProducts($offset, $itemsPerPage)
+    public function readAllProducts()
     {
         try {
-            $sql = "SELECT product_id, product_type_code, supplier_id, product_name, CONCAT('€ ',REPLACE(product_price, '.', ','))product_price, other_product_details FROM products LIMIT $offset, $itemsPerPage";
+            $sql = "SELECT product_id, product_type_code, supplier_id, product_name, CONCAT('€ ',REPLACE(product_price, '.', ','))product_price, other_product_details FROM products";
             $result = $this->DataHandler->readAlldata($sql);
             $result->setFetchMode(PDO::FETCH_ASSOC);
             $res = $result->fetchAll();
@@ -27,17 +27,6 @@ class ProductsLogic
         } catch (Exception $e) {
             throw $e;
         }
-    }
-
-    public function countPages($itemsPerPage)
-    {
-        $sql = "SELECT COUNT(*) as count FROM products";
-        $result = $this->DataHandler->readAlldata($sql);
-        $result->setFetchMode(PDO::FETCH_ASSOC);
-        $res = $result->fetchAll();
-        $totalRecords = $res[0]['count'];
-        $totalPages = ceil($totalRecords / $itemsPerPage);
-        return $totalPages;
     }
 
     public function readProduct($id)
@@ -70,37 +59,6 @@ class ProductsLogic
         $sql = "DELETE FROM products WHERE product_id=" . $id;
         $result = $this->DataHandler->deleteData($sql);
         return 'Amount of products deleted: ' . $result;
-    }
-
-    public function readSearchProduct($search)
-    {
-        try {
-            $sql = "SELECT * FROM `products` WHERE (product_id LIKE '%$search%' OR product_type_code LIKE '%$search%' OR supplier_id LIKE '%$search%' OR product_name LIKE '%$search%' OR product_price LIKE '%$search%' OR other_product_details LIKE '%$search%')";
-            $results = $this->DataHandler->readAllData($sql);
-            $res = $results->fetchAll();
-            return $res;
-        } catch (Exception $e) {
-            throw $e;
-        }
-    }
-
-    public function createCSV($result)
-    {
-        ob_start();
-        header('Content-Type: text/csv; charset=utf-8');
-        header('Content-Disposition: attachment; filename=csv_export.csv');
-
-        $header_args = array('product_id', 'product_type_code', 'supplier_id', 'product_name', 'product_price', 'other_product_details');
-        ob_end_clean();
-
-        $output = fopen('php://output', 'w');
-
-        fputcsv($output, $header_args);
-        foreach ($result as $data_item) {
-            fputcsv($output, $data_item);
-        }
-        fclose($output);
-        exit;
     }
 
 }

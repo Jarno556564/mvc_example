@@ -27,10 +27,10 @@ class ContactsLogic
         }
     }
 
-    public function readAllContacts($offset, $itemsPerPage)
+    public function readAllContacts()
     {
         try {
-            $sql = "SELECT * FROM contacts LIMIT $offset, $itemsPerPage";
+            $sql = "SELECT * FROM contacts";
             $result = $this->DataHandler->readAlldata($sql);
             $result->setFetchMode(PDO::FETCH_ASSOC);
             $res = $result->fetchAll();
@@ -38,17 +38,6 @@ class ContactsLogic
         } catch (Exception $e) {
             throw $e;
         }
-    }
-
-    public function countPages($itemsPerPage)
-    {
-        $sql = "SELECT COUNT(*) as count FROM contacts";
-        $result = $this->DataHandler->readAlldata($sql);
-        $result->setFetchMode(PDO::FETCH_ASSOC);
-        $res = $result->fetchAll();
-        $totalRecords = $res[0]['count'];
-        $totalPages = ceil($totalRecords / $itemsPerPage);
-        return $totalPages;
     }
 
     public function updateContact($name, $phone, $email, $address, $id)
@@ -64,34 +53,5 @@ class ContactsLogic
         $result = $this->DataHandler->deleteData($sql);
         return 'Amount of contacts deleted: ' . $result;
     }
-    public function readSearchContact($search)
-    {
-        try {
-            $sql = "SELECT * FROM `contacts` WHERE (id LIKE '%$search%' OR name LIKE '%$search%' OR phone LIKE '%$search%' OR email LIKE '%$search%' OR address LIKE '%$search%')";
-            $results = $this->DataHandler->readAllData($sql);
-            $res = $results->fetchAll();
-            return $res;
-        } catch (Exception $e) {
-            throw $e;
-        }
-    }
 
-    public function createCSV($result)
-    {
-        ob_start();
-        header('Content-Type: text/csv; charset=utf-8');
-        header('Content-Disposition: attachment; filename=csv_export.csv');
-
-        $header_args = array('id', 'name', 'phone', 'email', 'address');
-        ob_end_clean();
-
-        $output = fopen('php://output', 'w');
-
-        fputcsv($output, $header_args);
-        foreach ($result as $data_item) {
-            fputcsv($output, $data_item);
-        }
-        fclose($output);
-        exit;
-    }
 }
