@@ -38,6 +38,9 @@ class ProductsController
                 case 'viewPage':
                     $this->collectReadAllProducts();
                     break;
+                case 'export':
+                    $this->collectExportProducts();
+                    break;
                 default:
                     $this->collectReadAllProducts();
                     break;
@@ -107,9 +110,18 @@ class ProductsController
     public function collectReadSearchBar($search)
     {
         $result = $this->ProductsLogic->readSearchProduct($search);
-        $html = $this->Output->createViewControls("contacts");
-        $html = $this->Output->createTable($result, "products", "product_id");
+        $html = $this->Output->createViewControls("products");
+        $html .= $this->Output->createTable($result, "products", "product_id");
         include 'view/show.php';
+    }
+
+
+    public function collectExportProducts()
+    {
+        $page = isset($_GET['page']) ? $_GET['page'] : 1;
+        $offset = ($page - 1) * $this->itemsPerPage;
+        $result = $this->ProductsLogic->readAllProducts($offset, $this->itemsPerPage);
+        $this->ProductsLogic->createCSV($result);
     }
 
 }

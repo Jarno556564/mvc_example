@@ -19,7 +19,7 @@ class ProductsLogic
     public function readAllProducts($offset, $itemsPerPage)
     {
         try {
-            $sql = "SELECT product_id, product_name, CONCAT('€ ',REPLACE(product_price, '.', ','))product_price, other_product_details FROM products LIMIT $offset, $itemsPerPage";
+            $sql = "SELECT product_id, product_type_code, supplier_id, product_name, CONCAT('€ ',REPLACE(product_price, '.', ','))product_price, other_product_details FROM products LIMIT $offset, $itemsPerPage";
             $result = $this->DataHandler->readAlldata($sql);
             $result->setFetchMode(PDO::FETCH_ASSOC);
             $res = $result->fetchAll();
@@ -43,7 +43,7 @@ class ProductsLogic
     public function readProduct($id)
     {
         try {
-            $sql = "SELECT product_id, product_name, CONCAT('€ ',REPLACE(product_price, '.', ','))product_price, other_product_details FROM products WHERE product_id=$id";
+            $sql = "SELECT product_id, product_type_code, supplier_id, product_name, CONCAT('€ ',REPLACE(product_price, '.', ','))product_price, other_product_details FROM products WHERE product_id=$id";
             $result = $this->DataHandler->readData($sql);
             $result->setFetchMode(PDO::FETCH_ASSOC);
             $res = $result->fetchAll();
@@ -82,6 +82,25 @@ class ProductsLogic
         } catch (Exception $e) {
             throw $e;
         }
+    }
+
+    public function createCSV($result)
+    {
+        ob_start();
+        header('Content-Type: text/csv; charset=utf-8');
+        header('Content-Disposition: attachment; filename=csv_export.csv');
+
+        $header_args = array('product_id', 'product_type_code', 'supplier_id', 'product_name', 'product_price', 'other_product_details');
+        ob_end_clean();
+
+        $output = fopen('php://output', 'w');
+
+        fputcsv($output, $header_args);
+        foreach ($result as $data_item) {
+            fputcsv($output, $data_item);
+        }
+        fclose($output);
+        exit;
     }
 
 }

@@ -75,4 +75,23 @@ class ContactsLogic
             throw $e;
         }
     }
+
+    public function createCSV($result)
+    {
+        ob_start();
+        header('Content-Type: text/csv; charset=utf-8');
+        header('Content-Disposition: attachment; filename=csv_export.csv');
+
+        $header_args = array('id', 'name', 'phone', 'email', 'address');
+        ob_end_clean();
+
+        $output = fopen('php://output', 'w');
+
+        fputcsv($output, $header_args);
+        foreach ($result as $data_item) {
+            fputcsv($output, $data_item);
+        }
+        fclose($output);
+        exit;
+    }
 }

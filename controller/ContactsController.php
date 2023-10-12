@@ -38,6 +38,9 @@ class ContactsController
                 case 'viewPage':
                     $this->collectReadAllContacts();
                     break;
+                case 'export':
+                    $this->collectExportContacts();
+                    break;
                 default:
                     $this->collectReadAllContacts();
                     break;
@@ -108,5 +111,13 @@ class ContactsController
         $html = $this->Output->createViewControls("contacts");
         $html .= $this->Output->createTable($result, "contacts", "id");
         include 'view/show.php';
+    }
+
+    public function collectExportContacts()
+    {
+        $page = isset($_GET['page']) ? $_GET['page'] : 1;
+        $offset = ($page - 1) * $this->itemsPerPage;
+        $result = $this->ContactsLogic->readAllContacts($offset, $this->itemsPerPage);
+        $this->ContactsLogic->createCSV($result);
     }
 }
