@@ -36,8 +36,6 @@ class Output
         $html = "<div class='view-controls'>";
         $html .= $this->createSearchBar($act);
         $html .= $this->createCreateButton($act);
-        $html .= $this->createCSVButton($act);
-        $html .= $this->createModal();
         $html .= "</div>";
         return $html;
     }
@@ -63,18 +61,9 @@ class Output
     public function createPagination($totalPages, $act)
     {
         $page = isset($_GET['page']) ? $_GET['page'] : 1;
-        if ($page > 1) {
-            $html = "<button class='paginationArrow'><a href='index.php?act=$act&op=viewPage&page=" . ($page - 1) . "' class='button'><i class='fa-solid fa-angles-left'></i></a></button>";
-        } else {
-            $html = "<button class='paginationArrow' disabled><a href='javascript:void(0)' class='button'><i class='fa-solid fa-angles-left'></i></a></button>";
-        }
+        $html = "";
         for ($i = 1; $i <= $totalPages; $i++) {
             $html .= "<a class='pagination' href='index.php?act=$act&op=viewPage&page=$i'> $i </a>";
-        }
-        if ($page <= $totalPages - 1) {
-            $html .= "<button class='paginationArrow'><a href='index.php?act=$act&op=viewPage&page=" . ($page + 1) . "' class='button'><i class='fa-solid fa-angles-right'></i></a></button>";
-        } else {
-            $html .= "<button class='paginationArrow' disabled><a href='javascript:void(0)' class='button'><i class='fa-solid fa-angles-right'></i></a></button>";
         }
         return $html;
     }
