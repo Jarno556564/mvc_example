@@ -103,4 +103,11 @@ class ProductsLogic
         exit;
     }
 
+    public function deleteMultipleContacts($checkboxes) {
+        $ids = implode(",", $checkboxes);
+        $sql = "DELETE FROM products WHERE product_id IN ($ids)";
+        $result = $this->DataHandler->deleteData($sql);
+        return 'Amount of contacts deleted: ' . $result;
+    }
+
 }

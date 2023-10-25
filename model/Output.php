@@ -5,11 +5,16 @@ class Output
     public function createTable($result, $act, $id_name)
     {
         $tableheader = false;
-        $html = '<table>';
+        $html = "<form action='index.php?act=$act&op=mutliDelete' method='post' id='multi-delete-form'>";
+        $html .= '<table>';
         foreach ($result as $row) {
             if ($tableheader == false) {
                 $html .= "<tr>";
+                $html .= "<th><input type='checkbox' onClick='toggleCheckboxes(this)' /><br /></th>";
                 foreach ($row as $key => $value) {
+                    if ($key === $id_name) {
+                        continue;
+                    }
                     $html .= "<th>" . $key . "</th>";
                 }
                 $html .= "<th>actions</th>";
@@ -18,7 +23,11 @@ class Output
             }
             $html .= "<tr>";
             foreach ($row as $key => $value) {
-                $html .= "<td name='" . $key . "'>" . $value . "</td>";
+                if ($key === $id_name) {
+                    $html .= "<td><input type='checkbox' name='checkboxes[]' value='" . $value . "'></td>";
+                } else {
+                    $html .= "<td name='" . $key . "'>" . $value . "</td>";
+                }
             }
             $html .= "<td>
                         <button class='button'><a href='index.php?act=$act&op=read&id=" . $row[$id_name] . "'><i class='fa-brands fa-readme'></i> Read</a></button>
@@ -28,6 +37,7 @@ class Output
             $html .= "</tr>";
         }
         $html .= "</table>";
+        $html .= "</form>";
         return $html;
     }
 
@@ -38,6 +48,7 @@ class Output
         $html .= $this->createCreateButton($act);
         $html .= $this->createCSVButton($act);
         $html .= $this->createModal();
+        $html .= $this->createMultiDeleteButton($act);
         $html .= "</div>";
         return $html;
     }
@@ -92,6 +103,12 @@ class Output
         $html .= "<span class='close'>x</span>";
         $html .= "<p class='modalMessage'></p>";
         $html .= "</div>";
+        return $html;
+    }
+
+    public function createMultiDeleteButton($act)
+    {
+        $html = "<input class='button' type='submit' name='submit' value='Delete Selected' form='multi-delete-form'>";
         return $html;
     }
 }

@@ -97,7 +97,7 @@ table th {
     color: #5f5f5f;
 }
 
-th:nth-child(-n+2) {
+th:nth-child(-n+3) {
     color: black;
 }
 
@@ -118,6 +118,7 @@ td {
     background-color: #1abc9c;
     border: none;
     border-radius: 0.3rem;
+    color: #fff;
 }
 
 .button a {

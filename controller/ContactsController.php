@@ -41,6 +41,9 @@ class ContactsController
                 case 'export':
                     $this->collectExportContacts();
                     break;
+                case 'mutliDelete':
+                    $checkboxes = isset($_REQUEST['checkboxes']) ? $_REQUEST['checkboxes'] : '';
+                    $this->collectMutliDelete($checkboxes);
                 default:
                     $this->collectReadAllContacts();
                     break;
@@ -119,5 +122,11 @@ class ContactsController
         $offset = ($page - 1) * $this->itemsPerPage;
         $result = $this->ContactsLogic->readAllContacts($offset, $this->itemsPerPage);
         $this->ContactsLogic->createCSV($result);
+    }
+
+    public function collectMutliDelete($checkboxes)
+    {
+        $html = $this->ContactsLogic->deleteMultipleContacts($checkboxes);
+        include 'view/show.php';
     }
 }

@@ -41,6 +41,9 @@ class ProductsController
                 case 'export':
                     $this->collectExportProducts();
                     break;
+                case 'mutliDelete':
+                    $checkboxes = isset($_REQUEST['checkboxes']) ? $_REQUEST['checkboxes'] : '';
+                    $this->collectMutliDelete($checkboxes);
                 default:
                     $this->collectReadAllProducts();
                     break;
@@ -121,10 +124,19 @@ class ProductsController
         $page = isset($_GET['page']) ? $_GET['page'] : 1;
         $offset = ($page - 1) * $this->itemsPerPage;
         $result = $this->ProductsLogic->readAllProducts($offset, $this->itemsPerPage);
-        //replace euro sign in product_price
-        // edit the result array given to createCSV
-
+        for ($i = 0; $i < count($result); $i++) {
+            $stripped_price = str_replace('€', '', $result[$i]['product_price']);
+            $stripped_price = str_replace(' ', '', $stripped_price);
+            $stripped_price = str_replace(',', '.', $stripped_price);
+            $result[$i]['product_price'] = $stripped_price;
+        }
         $this->ProductsLogic->createCSV($result);
+    }
+
+    public function collectMutliDelete($checkboxes)
+    {
+        $html = $this->ProductsLogic->deleteMultipleContacts($checkboxes);
+        include 'view/show.php';
     }
 
 }
