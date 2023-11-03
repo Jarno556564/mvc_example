@@ -7,4 +7,4 @@
 * use PHP PDO
 * use OOP style
 
-![erd_stardunks_l1](https://github.com/Jarno556564/mvc_example/assets/erd_stardunks_l1.png)
+![erd_stardunks_l1](https://github.com/Jarno556564/mvc_example/assets/level_1.png)
