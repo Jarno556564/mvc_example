@@ -44,6 +44,10 @@ class ProductsController
                 case 'mutliDelete':
                     $checkboxes = isset($_REQUEST['checkboxes']) ? $_REQUEST['checkboxes'] : '';
                     $this->collectMutliDelete($checkboxes);
+                    break;
+                case 'selectDate':
+                    $this->collectReadAllProductsInRange($_REQUEST['start_date'], $_REQUEST['end_date']);
+                    break;
                 default:
                     $this->collectReadAllProducts();
                     break;
@@ -61,8 +65,9 @@ class ProductsController
             $product_name = isset($_REQUEST['product_name']) ? $_REQUEST['product_name'] : null;
             $product_price = isset($_REQUEST['product_price']) ? $_REQUEST['product_price'] : null;
             $other_product_details = isset($_REQUEST['other_product_details']) ? $_REQUEST['other_product_details'] : null;
+            $exp_date = isset($_REQUEST['exp_date']) ? $_REQUEST['exp_date'] : null;
 
-            $html = $this->ProductsLogic->createProduct($product_type_code, $supplier_id, $product_name, $product_price, $other_product_details);
+            $html = $this->ProductsLogic->createProduct($product_type_code, $supplier_id, $product_name, $product_price, $other_product_details, $exp_date);
             $message = $html > 0 ? "New Product added with id " . $html : "Failed to add new Product.";
         }
         include 'view/products/createProduct.php';
@@ -74,16 +79,16 @@ class ProductsController
         $offset = ($page - 1) * $this->itemsPerPage;
         $result = $this->ProductsLogic->readAllProducts($offset, $this->itemsPerPage);
         $totalpages = $this->ProductsLogic->countPages($this->itemsPerPage);
-        $html = $this->Output->createViewControls("products");
+        $html = $this->Output->createTopViewControls("products");
         $html .= $this->Output->createTable($result, "products", "product_id");
-        $html .= $this->Output->createPagination($totalpages, "products");
+        $html .= $this->Output->createBottomViewControls("products", $totalpages);
         include 'view/show.php';
     }
 
     public function collectReadProduct($id)
     {
         $result = $this->ProductsLogic->readProduct($id);
-        $html = $this->Output->createViewControls("products");
+        $html = $this->Output->createTopViewControls("products");
         $html .= $this->Output->createTable($result, "products", "product_id");
         include 'view/show.php';
     }
@@ -96,8 +101,9 @@ class ProductsController
             $product_name = isset($_REQUEST['product_name']) ? $_REQUEST['product_name'] : null;
             $product_price = isset($_REQUEST['product_price']) ? $_REQUEST['product_price'] : null;
             $other_product_details = isset($_REQUEST['other_product_details']) ? $_REQUEST['other_product_details'] : null;
+            $exp_date = isset($_REQUEST['exp_date']) ? $_REQUEST['exp_date'] : null;
 
-            $html = $this->ProductsLogic->updateProduct($product_type_code, $supplier_id, $product_name, $product_price, $other_product_details, $id);
+            $html = $this->ProductsLogic->updateProduct($product_type_code, $supplier_id, $product_name, $product_price, $other_product_details, $id, $exp_date);
             $message = $html ? "Record updated successfully." : "Failed to update the record.";
         }
         $result = $this->ProductsLogic->readProduct($id);
@@ -107,14 +113,13 @@ class ProductsController
     public function collectDeleteProduct($id)
     {
         $html = $this->ProductsLogic->deleteProduct($id);
-        $html .= $this->Output->createModal();
         include 'view/show.php';
     }
 
     public function collectReadSearchBar($search)
     {
         $result = $this->ProductsLogic->readSearchProduct($search);
-        $html = $this->Output->createViewControls("products");
+        $html = $this->Output->createTopViewControls("products");
         $html .= $this->Output->createTable($result, "products", "product_id");
         include 'view/show.php';
     }
@@ -135,7 +140,15 @@ class ProductsController
 
     public function collectMutliDelete($checkboxes)
     {
-        $html = $this->ProductsLogic->deleteMultipleContacts($checkboxes);
+        $html = $this->ProductsLogic->deleteMultipleProducts($checkboxes);
+        include 'view/show.php';
+    }
+
+    public function collectReadAllProductsInRange($start_date, $end_date)
+    {
+        $result = $this->ProductsLogic->readAllProductsInRange($start_date, $end_date);
+        $html = $this->Output->createTopViewControls("products");
+        $html .= $this->Output->createTable($result, "products", "product_id");
         include 'view/show.php';
     }
 

@@ -32,7 +32,7 @@ class Output
             $html .= "<td>
                         <button class='button'><a href='index.php?act=$act&op=read&id=" . $row[$id_name] . "'><i class='fa-brands fa-readme'></i> Read</a></button>
                         <button class='button'><a href='index.php?act=$act&op=update&id=" . $row[$id_name] . "'><i class='fa-solid fa-pen'></i> Update</a></button>
-                        <button class='button'><a onclick='showModal()' href='index.php?act=$act&op=delete&id=" . $row[$id_name] . "'><i class='fa-solid fa-circle-minus'></i> Delete</a></button>
+                        <button class='button'><a href='index.php?act=$act&op=delete&id=" . $row[$id_name] . "'><i class='fa-solid fa-circle-minus'></i> Delete</a></button>
                     </td>";
             $html .= "</tr>";
         }
@@ -41,14 +41,27 @@ class Output
         return $html;
     }
 
-    public function createViewControls($act)
+    public function createTopViewControls($act)
     {
         $html = "<div class='view-controls'>";
         $html .= $this->createSearchBar($act);
-        $html .= $this->createCreateButton($act);
-        $html .= $this->createCSVButton($act);
-        $html .= $this->createModal();
+        $html .= "<div class='view-controls-buttons'>";
         $html .= $this->createMultiDeleteButton($act);
+        $html .= $this->createCreateButton($act);
+        $html .= "</div>";
+        $html .= "</div>";
+        return $html;
+    }
+
+    public function createBottomViewControls($act, $totalpages)
+    {
+        // pagination,csv, date range picker
+        $html = "<div class='view-controls'>";
+        $html .= $this->createPagination($act, $totalpages);
+        $html .= "<div class='view-controls-buttons'>";
+        $html .= $this->createCSVButton($act);
+        $html .= $this->createDateRangeForm($act);
+        $html .= "</div>";
         $html .= "</div>";
         return $html;
     }
@@ -71,13 +84,14 @@ class Output
         return $html;
     }
 
-    public function createPagination($totalPages, $act)
+    public function createPagination($act, $totalPages)
     {
+        $html = "<div class='paginationContainer'>";
         $page = isset($_GET['page']) ? $_GET['page'] : 1;
         if ($page > 1) {
-            $html = "<button class='paginationArrow'><a href='index.php?act=$act&op=viewPage&page=" . ($page - 1) . "' class='button'><i class='fa-solid fa-angles-left'></i></a></button>";
+            $html .= "<button class='paginationArrow'><a href='index.php?act=$act&op=viewPage&page=" . ($page - 1) . "' class='button'><i class='fa-solid fa-angles-left'></i></a></button>";
         } else {
-            $html = "<button class='paginationArrow' disabled><a href='javascript:void(0)' class='button'><i class='fa-solid fa-angles-left'></i></a></button>";
+            $html .= "<button class='paginationArrow' disabled><a href='javascript:void(0)' class='button'><i class='fa-solid fa-angles-left'></i></a></button>";
         }
         for ($i = 1; $i <= $totalPages; $i++) {
             $html .= "<a class='pagination' href='index.php?act=$act&op=viewPage&page=$i'> $i </a>";
@@ -87,6 +101,7 @@ class Output
         } else {
             $html .= "<button class='paginationArrow' disabled><a href='javascript:void(0)' class='button'><i class='fa-solid fa-angles-right'></i></a></button>";
         }
+        $html .= "</div>";
         return $html;
     }
 
@@ -97,18 +112,25 @@ class Output
         return $html;
     }
 
-    public function createModal()
+    public function createMultiDeleteButton($act)
     {
-        $html = "<div class='modal'>";
-        $html .= "<span class='close'>x</span>";
-        $html .= "<p class='modalMessage'></p>";
-        $html .= "</div>";
+        // $html = "<button class='button' onclick='showModal()'>Delete Selected</button>";
+        $html = "<input class='button' type='submit' name='submit' value='Delete Selected' form='multi-delete-form'>";
         return $html;
     }
 
-    public function createMultiDeleteButton($act)
+    public function createDateRangeForm($act)
     {
-        $html = "<input class='button' type='submit' name='submit' value='Delete Selected' form='multi-delete-form'>";
+        if ($act == "contacts") {
+            return null;
+        }
+        $html = "<form action='index.php?act=$act&op=selectDate' method='post' class='date_range_form'>";
+        $html .= "<label for='start_date'>From:</label>";
+        $html .= "<input type='date' id='start_date' name='start_date' class='date_input' required>";
+        $html .= "<label for='end_date'>To:</label>";
+        $html .= "<input type='date' id='end_date' name='end_date' class='date_input' required>";
+        $html .= "<button type='submit' name='submit' class='dateButton'><i class='fas fa-magnifying-glass'></i></button>";
+        $html .= "</form>";
         return $html;
     }
 }

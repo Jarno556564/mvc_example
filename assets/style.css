@@ -78,7 +78,7 @@ body {
 /* view controls styling */
 .view-controls {
     display: flex;
-    text-align: center;
+    justify-content: space-between;
 }
 
 .view-controls .button,
@@ -86,7 +86,40 @@ body {
     margin: 0.5rem;
 }
 
+.view-controls-buttons {
+    display: flex;
+    align-items: center;
+}
+
 /* end view controls styling */
+
+/* start date range styling */
+.date_input {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    margin-left: 0.3rem;
+}
+
+.date_range_form label {
+    margin-left: 0.5rem;
+}
+
+.dateButton {
+    display: inline-block;
+    padding: 5px 15px;
+    font-size: 15px;
+    cursor: pointer;
+    text-align: center;
+    outline: none;
+    background-color: #1abc9c;
+    border: none;
+    border-radius: 0.3rem;
+    color: #fff;
+}
+
+/* end date range styling */
+
 /* table styling */
 table {
     border-collapse: collapse;
@@ -138,14 +171,14 @@ td {
     border: none;
 }
 
-.paginationArrow  a{
+.paginationArrow a {
     color: #fff;
     padding: 0.5rem 1rem;
 }
 
 .paginationArrow {
+    background-color: #fff;
     border: none;
-
 }
 
 /* end table styling */
@@ -173,6 +206,7 @@ td {
 .modal {
     display: none;
 }
+
 /* end modal styling */
 
 /* Fake image, just for this example */

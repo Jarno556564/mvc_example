@@ -8,10 +8,11 @@ class ProductsLogic
         $this->DataHandler = new DataHandler("localhost", "mysql", "user_db", "root", "");
     }
 
-    public function createProduct($product_type_code, $supplier_id, $product_name, $product_price, $other_product_details)
+    public function createProduct($product_type_code, $supplier_id, $product_name, $product_price, $other_product_details, $exp_date)
     {
-        $sql = "INSERT INTO products (product_type_code, supplier_id, product_name, product_price, other_product_details)
-                VALUES ('$product_type_code', '$supplier_id', '$product_name', '$product_price', '$other_product_details')";
+        $sql = "INSERT INTO products (product_type_code, supplier_id, product_name, product_price, other_product_details, exp_date)
+                VALUES ('$product_type_code', '$supplier_id', '$product_name', '$product_price', '$other_product_details', '$exp_date')";
+        print $sql;
         $result = $this->DataHandler->createData($sql);
         return $result;
     }
@@ -19,7 +20,20 @@ class ProductsLogic
     public function readAllProducts($offset, $itemsPerPage)
     {
         try {
-            $sql = "SELECT product_id, product_type_code, supplier_id, product_name, CONCAT('€ ',REPLACE(product_price, '.', ','))product_price, other_product_details FROM products LIMIT $offset, $itemsPerPage";
+            $sql = "SELECT product_id, product_type_code, supplier_id, product_name, CONCAT('€ ',REPLACE(product_price, '.', ','))product_price, other_product_details, exp_date FROM products LIMIT $offset, $itemsPerPage";
+            $result = $this->DataHandler->readAlldata($sql);
+            $result->setFetchMode(PDO::FETCH_ASSOC);
+            $res = $result->fetchAll();
+            return $res;
+        } catch (Exception $e) {
+            throw $e;
+        }
+    }
+
+    public function readAllProductsInRange($start_date, $end_date)
+    {
+        try {
+            $sql = "SELECT product_id, product_type_code, supplier_id, product_name, CONCAT('€ ',REPLACE(product_price, '.', ','))product_price, other_product_details, exp_date FROM products WHERE exp_date between '$start_date' AND '$end_date'";
             $result = $this->DataHandler->readAlldata($sql);
             $result->setFetchMode(PDO::FETCH_ASSOC);
             $res = $result->fetchAll();
@@ -43,7 +57,7 @@ class ProductsLogic
     public function readProduct($id)
     {
         try {
-            $sql = "SELECT product_id, product_type_code, supplier_id, product_name, CONCAT('€ ',REPLACE(product_price, '.', ','))product_price, other_product_details FROM products WHERE product_id=$id";
+            $sql = "SELECT product_id, product_type_code, supplier_id, product_name, CONCAT('€ ',REPLACE(product_price, '.', ','))product_price, other_product_details, exp_date FROM products WHERE product_id=$id";
             $result = $this->DataHandler->readData($sql);
             $result->setFetchMode(PDO::FETCH_ASSOC);
             $res = $result->fetchAll();
@@ -53,13 +67,14 @@ class ProductsLogic
         }
     }
 
-    public function updateProduct($product_type_code, $supplier_id, $product_name, $product_price, $other_product_details, $product_id)
+    public function updateProduct($product_type_code, $supplier_id, $product_name, $product_price, $other_product_details, $product_id, $exp_date)
     {
         $sql = "UPDATE `products` SET `product_type_code` = '$product_type_code',
                                     `supplier_id` = '$supplier_id',
                                     `product_name` = '$product_name',
                                     `product_price` = '$product_price',
-                                    `other_product_details` = '$other_product_details'
+                                    `other_product_details` = '$other_product_details',
+                                    `exp_date` = '$exp_date'
                 WHERE product_id = $product_id";
         $result = $this->DataHandler->updateData($sql);
         return $result;
@@ -75,7 +90,7 @@ class ProductsLogic
     public function readSearchProduct($search)
     {
         try {
-            $sql = "SELECT * FROM `products` WHERE (product_id LIKE '%$search%' OR product_type_code LIKE '%$search%' OR supplier_id LIKE '%$search%' OR product_name LIKE '%$search%' OR product_price LIKE '%$search%' OR other_product_details LIKE '%$search%')";
+            $sql = "SELECT * FROM `products` WHERE (product_id LIKE '%$search%' OR product_type_code LIKE '%$search%' OR supplier_id LIKE '%$search%' OR product_name LIKE '%$search%' OR product_price LIKE '%$search%' OR other_product_details OR 'exp_date' LIKE '%$search%')";
             $results = $this->DataHandler->readAllData($sql);
             $res = $results->fetchAll();
             return $res;
@@ -90,7 +105,7 @@ class ProductsLogic
         header('Content-Type: text/csv; charset=utf-8');
         header('Content-Disposition: attachment; filename=csv_export.csv');
 
-        $header_args = array('product_id', 'product_type_code', 'supplier_id', 'product_name', 'product_price', 'other_product_details');
+        $header_args = array('product_id', 'product_type_code', 'supplier_id', 'product_name', 'product_price', 'other_product_details', 'exp_date');
         ob_end_clean();
 
         $output = fopen('php://output', 'w');
@@ -103,8 +118,13 @@ class ProductsLogic
         exit;
     }
 
-    public function deleteMultipleContacts($checkboxes) {
-        $ids = implode(",", $checkboxes);
+    public function deleteMultipleProducts($checkboxes)
+    {
+        if ($checkboxes === "") {
+            $msg = "No checkboxes selected";
+            return $msg;
+        }
+        $ids = implode(',', $checkboxes);
         $sql = "DELETE FROM products WHERE product_id IN ($ids)";
         $result = $this->DataHandler->deleteData($sql);
         return 'Amount of contacts deleted: ' . $result;

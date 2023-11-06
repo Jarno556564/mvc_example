@@ -95,8 +95,13 @@ class ContactsLogic
         exit;
     }
 
-    public function deleteMultipleContacts($checkboxes) {
-        $ids = implode(",", $checkboxes);
+    public function deleteMultipleContacts($checkboxes)
+    {
+        if ($checkboxes === "") {
+            $msg = "No checkboxes selected";
+            return $msg;
+        }
+        $ids = implode(',', $checkboxes);
         $sql = "DELETE FROM contacts WHERE id IN ($ids)";
         $result = $this->DataHandler->deleteData($sql);
         return 'Amount of contacts deleted: ' . $result;
